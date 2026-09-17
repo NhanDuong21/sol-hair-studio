@@ -1,0 +1,155 @@
+.shell {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 48px 20px;
+  box-sizing: border-box;
+}
+
+.hero {
+  width: min(760px, 100%);
+}
+
+.eyebrow {
+  margin: 0 0 18px;
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+}
+
+.intro {
+  max-width: 640px;
+  margin: 0 0 36px;
+  color: var(--muted);
+  font-size: 1.08rem;
+}
+
+.status-card {
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+}
+
+.status-heading,
+.status-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.status-heading {
+  justify-content: flex-start;
+}
+
+.status-label {
+  margin: 0 0 3px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.status-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--warning);
+  box-shadow: 0 0 0 7px color-mix(in srgb, var(--warning) 16%, transparent);
+}
+
+.status-card--success .status-dot {
+  background: var(--success);
+  box-shadow: 0 0 0 7px color-mix(in srgb, var(--success) 16%, transparent);
+}
+
+.status-card--error .status-dot {
+  background: var(--danger);
+  box-shadow: 0 0 0 7px color-mix(in srgb, var(--danger) 16%, transparent);
+}
+
+dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 26px 0;
+}
+
+dl div {
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--surface-muted);
+}
+
+dt {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+dd {
+  margin: 3px 0 0;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.error-message {
+  margin: 24px 0;
+  color: var(--danger);
+}
+
+.status-footer {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}
+
+code {
+  overflow-wrap: anywhere;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+button {
+  flex: 0 0 auto;
+  padding: 10px 15px;
+  border: 0;
+  border-radius: 999px;
+  color: white;
+  background: var(--accent);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--accent-strong);
+}
+
+button:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  outline-offset: 3px;
+}
+
+@media (max-width: 560px) {
+  .shell {
+    align-items: start;
+    padding-top: 36px;
+  }
+
+  .status-card {
+    padding: 22px;
+  }
+
+  dl {
+    grid-template-columns: 1fr;
+  }
+
+  .status-footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

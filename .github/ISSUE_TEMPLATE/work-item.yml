@@ -1,0 +1,48 @@
+name: Work item
+description: Propose a testable change for the Sol Hair Studio repository.
+title: "[Area] "
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What outcome should this work produce, and for whom?
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: List the concrete work included in this issue.
+    validations:
+      required: true
+  - type: textarea
+    id: exclusions
+    attributes:
+      label: Out of scope
+      description: State nearby work that this issue intentionally does not include.
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: Link blocking issues/decisions, or write "None".
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Use observable, testable checklist items.
+      placeholder: |
+        - [ ] Given ..., when ..., then ...
+    validations:
+      required: true
+  - type: textarea
+    id: testing
+    attributes:
+      label: Test plan and evidence
+      description: List commands, manual environments and screenshots/logs required for review.
+    validations:
+      required: true
