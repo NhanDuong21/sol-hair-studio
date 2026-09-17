@@ -26,7 +26,7 @@
 ## Ranh giới triển khai
 
 - Ưu tiên monorepo hiện có và module đơn giản; không thêm service, orchestration hoặc tầng framework không cần thiết.
-- Web và mobile dùng JavaScript/JSX. API dùng TypeScript; không đưa TSX trở lại frontend nếu chưa có quyết định mới của nhóm.
+- Web, mobile và API đều dùng JavaScript; component React dùng JSX. Không đưa TypeScript hoặc TSX trở lại nếu chưa có quyết định mới của nhóm.
 - Giao diện web dùng utility class của Tailwind CSS. File `apps/web/src/index.css` chỉ là điểm nhập Tailwind hoặc chứa thiết lập toàn cục thật sự cần thiết; không tạo stylesheet CSS viết tay theo từng component nếu chưa có lý do được ghi trong issue.
 - React Native dùng `StyleSheet` native, không dùng CSS web. Chỉ thêm NativeWind hoặc thư viện tương tự khi nhóm quyết định rõ trong một issue riêng.
 - Hợp đồng API và mô hình dữ liệu được web và mobile dùng chung. Mọi thay đổi phải mô tả ảnh hưởng tương thích.
@@ -40,7 +40,6 @@ Chạy các kiểm tra liên quan đến phần đã sửa; với thay đổi xu
 
 ```powershell
 npm run lint
-npm run typecheck
 npm test
 npm run build
 ```

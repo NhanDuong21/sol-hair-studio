@@ -6,7 +6,7 @@ Nền tảng dùng chung cho bài tập SDN302 và MMA301. Repository này chứ
 | --- | --- | --- |
 | `apps/web` | React + Vite + JavaScript/JSX + Tailwind CSS | Trang web thích ứng, gọi endpoint kiểm tra API |
 | `apps/mobile` | React Native + Expo + JavaScript/JSX | Ứng dụng Android/iOS, gọi endpoint kiểm tra API |
-| `apps/api` | Node.js + Express + TypeScript | API dùng chung và kết nối MongoDB tùy chọn |
+| `apps/api` | Node.js + Express + JavaScript | API dùng chung và kết nối MongoDB tùy chọn |
 
 Đây mới là nền kỹ thuật ban đầu. Repository **chưa** tuyên bố đáp ứng rubric, chưa có đăng nhập, đặt lịch, thanh toán, trang tổng quan hay danh mục dịch vụ. Phạm vi hai môn và các giả định đang được ghi tại [docs/course-scope.md](docs/course-scope.md).
 
@@ -68,20 +68,19 @@ Với điện thoại thật, cho phép Node.js qua Windows Firewall nếu đư�
 
 - Giao diện web dùng lớp tiện ích của Tailwind CSS. `apps/web/src/index.css` chỉ nhập Tailwind; không tổ chức giao diện bằng các file CSS viết tay theo từng thành phần.
 - React Native dùng `StyleSheet` native vì Tailwind CSS của web không áp dụng trực tiếp cho Android/iOS. Chỉ thêm NativeWind hoặc giải pháp tương tự khi nhóm thống nhất trong một issue riêng.
-- Thành phần giao diện dùng file `.jsx`; không dùng `.tsx` trong web hoặc mobile.
+- Thành phần giao diện dùng file `.jsx`; toàn repository không dùng file `.ts` hoặc `.tsx`.
 
 ## Kiểm tra
 
 ```powershell
 npm run lint
-npm run typecheck
 npm test
 npm run build
 ```
 
-Lệnh `typecheck` hiện chỉ kiểm tra API TypeScript; web và mobile JavaScript/JSX được kiểm tra bằng ESLint, test và bước build.
+Toàn bộ mã nguồn dùng JavaScript/JSX nên không có bước `typecheck`. ESLint, test và bước build chịu trách nhiệm kiểm tra tự động.
 
-Lệnh `build` tạo gói triển khai web, biên dịch API và xuất gói JavaScript Android/iOS của Expo. Việc xuất gói không thay thế chạy ứng dụng trên trình giả lập hoặc thiết bị thật và không tạo APK/IPA đã ký.
+Lệnh `build` tạo gói triển khai web, kiểm tra cú pháp API và xuất gói JavaScript Android/iOS của Expo. Việc xuất gói không thay thế chạy ứng dụng trên trình giả lập hoặc thiết bị thật và không tạo APK/IPA đã ký.
 
 Các lệnh riêng hữu ích:
 

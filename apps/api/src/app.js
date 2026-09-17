@@ -29,6 +29,6 @@ app.get('/api/health', (_request, response) => {
 app.use((_request, response) => {
   response.status(404).json({
     status: 'error',
-    message: 'Route not found.',
+    message: 'Không tìm thấy đường dẫn.',
   })
 })

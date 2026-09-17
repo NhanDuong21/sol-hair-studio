@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   verify:
-    name: Lint, typecheck, test and build
+    name: Lint, test and build
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
@@ -30,9 +30,6 @@ jobs:
 
       - name: Lint
         run: npm run lint
-
-      - name: Typecheck
-        run: npm run typecheck
 
       - name: Test
         run: npm test

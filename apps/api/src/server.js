@@ -2,20 +2,22 @@ import { app } from './app.js'
 import { config } from './config.js'
 import { connectToDatabase, disconnectFromDatabase } from './database.js'
 
-async function start(): Promise<void> {
+async function start() {
   await connectToDatabase(config.mongoUri)
 
   const server = app.listen(config.port, '0.0.0.0', () => {
     console.log(
-      `Sol Hair API listening on http://localhost:${config.port} (${config.nodeEnv}).`,
+      `Sol Hair API đang chạy tại http://localhost:${config.port} (${config.nodeEnv}).`,
     )
     if (!config.mongoUri) {
-      console.log('MONGODB_URI is not configured; database access is disabled.')
+      console.log(
+        'Chưa cấu hình MONGODB_URI; chức năng truy cập cơ sở dữ liệu đang tắt.',
+      )
     }
   })
 
-  const shutdown = async (signal: string): Promise<void> => {
-    console.log(`${signal} received; shutting down.`)
+  const shutdown = async (signal) => {
+    console.log(`Đã nhận ${signal}; đang dừng API.`)
     server.close(async () => {
       await disconnectFromDatabase()
       process.exit(0)
@@ -26,7 +28,7 @@ async function start(): Promise<void> {
   process.once('SIGTERM', () => void shutdown('SIGTERM'))
 }
 
-start().catch((error: unknown) => {
-  console.error('API failed to start.', error)
+start().catch((error) => {
+  console.error('Không thể khởi động API.', error)
   process.exit(1)
 })
