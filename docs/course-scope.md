@@ -1,45 +1,46 @@
-# Course scope and assumptions
+# Phạm vi môn học và các giả định
 
-This note separates facts currently known from technical assumptions and decisions that still require the official rubrics. It is not a claim that either assignment is complete.
+Tài liệu này tách thông tin đã biết khỏi giả định kỹ thuật và những quyết định còn chờ rubric chính thức. Nội dung này không khẳng định bài tập của môn nào đã hoàn thành.
 
-## Known context
+## Bối cảnh đã biết
 
-- Sol Hair Studio is the shared product topic for SDN302 and MMA301.
-- SDN302 requires a complete ReactJS website, including responsive behavior in mobile browsers.
-- MMA301 requires a separate React Native application for Android/iOS.
-- Web and mobile use one backend and shared data, while each course still needs its own run/demo flow and requirement evidence.
-- Roles are not split by client: web is not assumed to be admin-only and mobile is not assumed to be customer-only.
-- The first shared product slice is a real service-catalog API consumed by both web and mobile.
+- Sol Hair Studio là chủ đề sản phẩm dùng chung cho SDN302 và MMA301.
+- SDN302 yêu cầu website ReactJS hoàn chỉnh, bao gồm giao diện responsive trên trình duyệt điện thoại.
+- MMA301 yêu cầu ứng dụng React Native riêng cho Android và iOS.
+- Web và mobile dùng chung máy chủ và dữ liệu, nhưng mỗi môn vẫn cần luồng chạy, demo và bằng chứng yêu cầu riêng.
+- Không chia vai trò theo ứng dụng: không mặc định web chỉ dành cho quản trị viên hoặc mobile chỉ dành cho khách hàng.
+- Phần sản phẩm dùng chung đầu tiên là API danh mục dịch vụ thật được cả web và mobile sử dụng.
 
-## Current technical assumptions
+## Giả định kỹ thuật hiện tại
 
-These choices provide a maintainable starting point and may be revised after rubric review:
+Các lựa chọn dưới đây tạo điểm bắt đầu dễ bảo trì và có thể thay đổi sau khi nhóm đọc rubric:
 
-- npm workspaces monorepo with `apps/web`, `apps/mobile` and `apps/api`.
-- Node.js 24 LTS and TypeScript.
-- React with Vite for web; React Native with Expo SDK 57 for mobile.
-- Express 5 for the shared HTTP API.
-- MongoDB with Mongoose 9 when persistence is introduced.
-- One shared API contract, with environment-specific base URLs for each client runtime.
-- GitHub Issues, milestones, Project fields and PRs provide planning and evidence; no parallel Markdown backlog.
+- Monorepo dùng npm workspaces với `apps/web`, `apps/mobile` và `apps/api`.
+- Node.js 24 LTS cho toàn repository.
+- Web dùng React, Vite, JavaScript/JSX và Tailwind CSS.
+- Mobile dùng React Native, Expo SDK 57 và JavaScript/JSX.
+- API dùng Express 5 và TypeScript.
+- Dùng MongoDB với Mongoose 9 khi bắt đầu lưu dữ liệu.
+- Web và mobile dùng một hợp đồng API chung, nhưng base URL được cấu hình riêng theo môi trường chạy.
+- GitHub Issues, milestone, trường Project và PR dùng để lập kế hoạch và lưu bằng chứng; không có backlog Markdown song song.
 
-## Provisional course mapping
+## Đối chiếu môn học tạm thời
 
-| Capability | SDN302 evidence | MMA301 evidence | Current status |
+| Khả năng | Bằng chứng SDN302 | Bằng chứng MMA301 | Trạng thái hiện tại |
 | --- | --- | --- | --- |
-| Shared API health and configuration | Web can call the API | Mobile can call the API | Baseline only |
-| Service catalog | Responsive React view | Native Android/iOS view | Planned; rubric mapping unconfirmed |
-| Authentication and roles | Unknown | Unknown | Awaiting rubric |
-| Booking workflow | Unknown | Unknown | Awaiting rubric |
-| Administration/dashboard | Unknown | Unknown | Awaiting rubric |
-| Payment | Unknown | Unknown | Awaiting rubric |
+| Cấu hình và endpoint kiểm tra API dùng chung | Web gọi được API | Mobile gọi được API | Chỉ có nền ban đầu |
+| Danh mục dịch vụ | Giao diện React thích ứng | Giao diện native Android/iOS | Đã lập kế hoạch; chưa xác nhận với rubric |
+| Xác thực và phân quyền | Chưa rõ | Chưa rõ | Chờ rubric |
+| Luồng đặt lịch | Chưa rõ | Chưa rõ | Chờ rubric |
+| Quản trị và trang tổng quan | Chưa rõ | Chưa rõ | Chờ rubric |
+| Thanh toán | Chưa rõ | Chưa rõ | Chờ rubric |
 
-## Information still needed
+## Thông tin còn thiếu
 
-- Official SDN302 and MMA301 rubrics, required features and grading evidence.
-- Deadline, demo format, deployment constraints and any mandated libraries/services.
-- Supported browser, Android and iOS version targets.
-- Team capacity, agreed ownership and review rotation.
-- Data/privacy constraints, authentication roles and whether payments are simulated or integrated.
+- Rubric chính thức của SDN302 và MMA301, chức năng bắt buộc và bằng chứng chấm điểm.
+- Hạn chót, hình thức demo, giới hạn triển khai và thư viện hoặc dịch vụ bắt buộc.
+- Phiên bản trình duyệt, Android và iOS cần hỗ trợ.
+- Khả năng nhận việc, người phụ trách và vòng review đã thống nhất trong nhóm.
+- Ràng buộc dữ liệu và quyền riêng tư, vai trò xác thực và việc thanh toán là mô phỏng hay tích hợp thật.
 
-Until these are confirmed, issues that depend on them should stay in Backlog and must not claim rubric compliance.
+Cho đến khi các thông tin trên được xác nhận, issue phụ thuộc vào chúng phải ở Backlog và không được tuyên bố đã đáp ứng rubric.

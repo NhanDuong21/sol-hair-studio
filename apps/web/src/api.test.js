@@ -1,12 +1,12 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { fetchHealth, normalizeBaseUrl, type HealthPayload } from './api'
+import { fetchHealth, normalizeBaseUrl } from './api'
 
 afterEach(() => {
   vi.unstubAllGlobals()
 })
 
 describe('normalizeBaseUrl', () => {
-  it('trims whitespace and trailing slashes', () => {
+  it('xóa khoảng trắng và dấu gạch chéo ở cuối URL', () => {
     expect(normalizeBaseUrl(' http://localhost:4000/// ')).toBe(
       'http://localhost:4000',
     )
@@ -14,8 +14,8 @@ describe('normalizeBaseUrl', () => {
 })
 
 describe('fetchHealth', () => {
-  it('requests the shared health endpoint', async () => {
-    const payload: HealthPayload = {
+  it('gọi đúng health endpoint dùng chung', async () => {
+    const payload = {
       status: 'ok',
       service: 'sol-hair-api',
       database: 'not-configured',

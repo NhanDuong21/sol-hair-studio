@@ -1,48 +1,48 @@
-name: Work item
-description: Propose a testable change for the Sol Hair Studio repository.
-title: "[Area] "
+name: Hạng mục công việc
+description: Đề xuất một thay đổi có thể kiểm thử cho kho mã nguồn Sol Hair Studio.
+title: "[Phạm vi] "
 body:
   - type: textarea
     id: goal
     attributes:
-      label: Goal
-      description: What outcome should this work produce, and for whom?
+      label: Mục tiêu
+      description: Công việc cần tạo ra kết quả gì và dành cho ai?
     validations:
       required: true
   - type: textarea
     id: scope
     attributes:
-      label: Scope
-      description: List the concrete work included in this issue.
+      label: Phạm vi
+      description: Liệt kê công việc cụ thể nằm trong hạng mục này.
     validations:
       required: true
   - type: textarea
     id: exclusions
     attributes:
-      label: Out of scope
-      description: State nearby work that this issue intentionally does not include.
+      label: Phần không bao gồm
+      description: Ghi rõ công việc liên quan nhưng chủ động không đưa vào hạng mục này.
     validations:
       required: true
   - type: textarea
     id: dependencies
     attributes:
-      label: Dependencies
-      description: Link blocking issues/decisions, or write "None".
+      label: Phụ thuộc
+      description: Dẫn hạng mục hoặc quyết định đang chặn; nếu không có thì ghi "Không có".
     validations:
       required: true
   - type: textarea
     id: acceptance
     attributes:
-      label: Acceptance criteria
-      description: Use observable, testable checklist items.
+      label: Điều kiện nghiệm thu
+      description: Dùng danh sách tiêu chí có thể quan sát và kiểm thử.
       placeholder: |
-        - [ ] Given ..., when ..., then ...
+        - [ ] Với ..., khi ..., thì ...
     validations:
       required: true
   - type: textarea
     id: testing
     attributes:
-      label: Test plan and evidence
-      description: List commands, manual environments and screenshots/logs required for review.
+      label: Kế hoạch kiểm thử và bằng chứng
+      description: Liệt kê lệnh, môi trường kiểm tra thủ công và ảnh chụp hoặc nhật ký cần để xem xét.
     validations:
       required: true

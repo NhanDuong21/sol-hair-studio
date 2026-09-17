@@ -1,39 +1,42 @@
-# Repository working agreement
+# Quy ước làm việc trong repository
 
-## Scope and source of truth
+## Phạm vi và nguồn thông tin chuẩn
 
-- This repository owns the Sol Hair Studio web, mobile and shared API applications. Do not copy from or modify the separate personal Next.js landing-page repository.
-- GitHub Issues are the only backlog. Do not create a second Markdown task list that must be kept in sync.
-- The official rubric, deadline and member capacity are not recorded yet. Treat technology and course mappings in `docs/course-scope.md` as assumptions until the team confirms them.
-- Keep shared capabilities shared. A task used by both courses may carry both course labels; do not duplicate it into separate web/mobile tickets without a real delivery boundary.
+- Repository này chứa ứng dụng web, ứng dụng di động và API dùng chung của Sol Hair Studio. Không sao chép từ hoặc sửa repository landing page Next.js cá nhân.
+- GitHub Issues là nơi duy nhất theo dõi danh sách công việc. Không tạo thêm danh sách việc trong Markdown phải cập nhật song song.
+- Chưa có rubric chính thức, hạn chót và khả năng nhận việc của từng thành viên. Xem lựa chọn công nghệ và phần đối chiếu môn học trong `docs/course-scope.md` là giả định cho đến khi nhóm xác nhận.
+- Giữ phần dùng chung ở một nơi. Công việc phục vụ cả hai môn có thể mang hai nhãn môn học; không tách thành issue web/mobile trùng nhau nếu không có ranh giới bàn giao thật sự.
 
-## Before changing code
+## Trước khi thay đổi mã nguồn
 
-1. Read the issue, `README.md`, `docs/course-scope.md`, current branch, `git status` and recent history.
-2. Preserve unrelated and uncommitted work. Never discard or rewrite another person's changes.
-3. Confirm the requested work belongs to this repository and does not silently expand the assignment scope.
-4. Never print or commit tokens, `.env` files, credentials, device identifiers or production data.
+1. Đọc issue, `README.md`, `docs/course-scope.md`, nhánh hiện tại, `git status` và lịch sử commit gần nhất.
+2. Giữ nguyên thay đổi chưa commit hoặc không liên quan của người khác. Không xóa hay ghi đè công việc đó.
+3. Xác nhận yêu cầu thuộc repository này và không âm thầm mở rộng phạm vi bài tập.
+4. Không in hoặc commit token, file `.env`, thông tin đăng nhập, mã định danh thiết bị hay dữ liệu production.
 
-## Issue, branch and pull request flow
+## Quy trình issue, nhánh và pull request
 
-- Start from an issue with a testable goal, dependencies, exclusions and acceptance criteria.
-- Use a focused branch such as `feat/<issue>-short-name`, `fix/<issue>-short-name` or `chore/<issue>-short-name`.
-- Do not push directly to `main`, merge your own PR, lower branch rules or bypass a failing check.
-- Keep commits focused. Reference the issue in the PR and use `Closes #<number>` only when the PR fully satisfies it.
-- Leave work unassigned until the team agrees on ownership. Do not infer skills or availability from usernames.
-- Update the Project status honestly: blocked/unclear work stays in Backlog; only actionable work moves to Ready; code awaiting review moves to In Review.
+- Bắt đầu từ issue có mục tiêu kiểm thử được, phụ thuộc, phần không bao gồm và điều kiện nghiệm thu.
+- Dùng nhánh tập trung như `feat/<issue>-ten-ngan`, `fix/<issue>-ten-ngan` hoặc `chore/<issue>-ten-ngan`.
+- Không push trực tiếp vào `main`, tự merge PR, hạ rule bảo vệ nhánh hoặc bỏ qua kiểm tra đang thất bại.
+- Giữ mỗi commit tập trung. Dẫn issue trong PR và chỉ dùng `Closes #<số>` khi PR giải quyết đầy đủ issue đó.
+- Để công việc chưa assign cho đến khi nhóm thống nhất người phụ trách. Không suy đoán kỹ năng hoặc thời gian rảnh từ username.
+- Cập nhật trạng thái Project trung thực: việc bị chặn hoặc chưa rõ nằm ở Backlog; việc đủ điều kiện mới sang Ready; mã nguồn đang chờ review nằm ở In Review.
 
-## Implementation boundaries
+## Ranh giới triển khai
 
-- Prefer the existing monorepo and simple modules over new services, orchestration or framework layers.
-- API contracts and data models are shared by web and mobile. Changes to them must describe compatibility impact.
-- API base URLs must remain environment-configurable. Never assume browser, Android emulator, iOS simulator and physical devices use the same host address.
-- Add dependencies only when they directly support the issue. Keep versions compatible with the Node/Expo baselines documented in the repo and commit the root lockfile.
-- Do not claim emulator/device, database or browser verification unless it was actually performed.
+- Ưu tiên monorepo hiện có và module đơn giản; không thêm service, orchestration hoặc tầng framework không cần thiết.
+- Web và mobile dùng JavaScript/JSX. API dùng TypeScript; không đưa TSX trở lại frontend nếu chưa có quyết định mới của nhóm.
+- Giao diện web dùng utility class của Tailwind CSS. File `apps/web/src/index.css` chỉ là điểm nhập Tailwind hoặc chứa thiết lập toàn cục thật sự cần thiết; không tạo stylesheet CSS viết tay theo từng component nếu chưa có lý do được ghi trong issue.
+- React Native dùng `StyleSheet` native, không dùng CSS web. Chỉ thêm NativeWind hoặc thư viện tương tự khi nhóm quyết định rõ trong một issue riêng.
+- Hợp đồng API và mô hình dữ liệu được web và mobile dùng chung. Mọi thay đổi phải mô tả ảnh hưởng tương thích.
+- Base URL của API phải cấu hình được theo môi trường. Không giả định trình duyệt, Android Emulator, iOS Simulator và điện thoại thật dùng cùng một địa chỉ host.
+- Chỉ thêm dependency phục vụ trực tiếp cho issue. Giữ phiên bản tương thích với nền Node/Expo trong repository và commit lockfile ở thư mục gốc.
+- Không tuyên bố đã kiểm thử trình giả lập, thiết bị, cơ sở dữ liệu hoặc trình duyệt nếu chưa thật sự chạy.
 
-## Required checks and handoff
+## Kiểm tra bắt buộc và bàn giao
 
-Run the checks relevant to touched code; for cross-cutting changes run all of them:
+Chạy các kiểm tra liên quan đến phần đã sửa; với thay đổi xuyên suốt, chạy toàn bộ:
 
 ```powershell
 npm run lint
@@ -42,12 +45,12 @@ npm test
 npm run build
 ```
 
-In the PR, report:
+Trong PR, ghi rõ:
 
-- what changed and what is explicitly out of scope;
-- the exact commands that passed or failed;
-- manual environments actually exercised (browser, emulator, physical device, database);
-- screenshots/log excerpts required by the issue;
-- remaining risks, dependencies and follow-up issues.
+- nội dung đã thay đổi và phần chủ động không thực hiện;
+- chính xác lệnh nào thành công hoặc thất bại;
+- môi trường đã kiểm tra thủ công thật sự: trình duyệt, trình giả lập, thiết bị thật hoặc cơ sở dữ liệu;
+- ảnh chụp màn hình hoặc trích đoạn log mà issue yêu cầu;
+- rủi ro còn lại, phụ thuộc và issue tiếp theo.
 
-Never weaken tests, swallow failures or add placeholder tests just to make CI green.
+Không làm yếu test, nuốt lỗi hoặc thêm test giữ chỗ chỉ để CI hiện màu xanh.

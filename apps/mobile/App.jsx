@@ -1,5 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
-import { useCallback, useEffect, useState } from 'react';
+import { StatusBar } from 'expo-status-bar'
+import { useCallback, useEffect, useState } from 'react'
 import {
   ActivityIndicator,
   Pressable,
@@ -8,83 +8,71 @@ import {
   StyleSheet,
   Text,
   View,
-} from 'react-native';
-
-type HealthPayload = {
-  status: 'ok';
-  service: string;
-  database: 'connected' | 'disconnected' | 'not-configured';
-};
-
-type RequestState =
-  | { kind: 'loading' }
-  | { kind: 'success'; data: HealthPayload }
-  | { kind: 'error'; message: string };
+} from 'react-native'
 
 const apiBaseUrl = (
   process.env.EXPO_PUBLIC_API_BASE_URL ?? 'http://localhost:4000'
-).replace(/\/+$/, '');
+).replace(/\/+$/, '')
 
 export default function App() {
-  const [requestState, setRequestState] = useState<RequestState>({
-    kind: 'loading',
-  });
+  const [requestState, setRequestState] = useState({ kind: 'loading' })
 
-  const checkApi = useCallback(async (signal?: AbortSignal) => {
-    setRequestState({ kind: 'loading' });
+  const checkApi = useCallback(async (signal) => {
+    setRequestState({ kind: 'loading' })
 
     try {
-      const response = await fetch(`${apiBaseUrl}/api/health`, { signal });
-      if (!response.ok) throw new Error(`API returned HTTP ${response.status}.`);
-      const data = (await response.json()) as HealthPayload;
-      setRequestState({ kind: 'success', data });
+      const response = await fetch(`${apiBaseUrl}/api/health`, { signal })
+      if (!response.ok) throw new Error(`API trả về HTTP ${response.status}.`)
+
+      const data = await response.json()
+      setRequestState({ kind: 'success', data })
     } catch (error) {
-      if (error instanceof Error && error.name === 'AbortError') return;
+      if (error instanceof Error && error.name === 'AbortError') return
+
       setRequestState({
         kind: 'error',
         message:
-          error instanceof Error ? error.message : 'Could not connect to API.',
-      });
+          error instanceof Error ? error.message : 'Không thể kết nối API.',
+      })
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
-    const controller = new AbortController();
+    const controller = new AbortController()
 
     void (async () => {
       try {
         const response = await fetch(`${apiBaseUrl}/api/health`, {
           signal: controller.signal,
-        });
+        })
         if (!response.ok) {
-          throw new Error(`API returned HTTP ${response.status}.`);
+          throw new Error(`API trả về HTTP ${response.status}.`)
         }
-        const data = (await response.json()) as HealthPayload;
-        setRequestState({ kind: 'success', data });
+
+        const data = await response.json()
+        setRequestState({ kind: 'success', data })
       } catch (error) {
-        if (error instanceof Error && error.name === 'AbortError') return;
+        if (error instanceof Error && error.name === 'AbortError') return
+
         setRequestState({
           kind: 'error',
           message:
-            error instanceof Error
-              ? error.message
-              : 'Could not connect to API.',
-        });
+            error instanceof Error ? error.message : 'Không thể kết nối API.',
+        })
       }
-    })();
+    })()
 
-    return () => controller.abort();
-  }, []);
+    return () => controller.abort()
+  }, [])
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.eyebrow}>SOL HAIR STUDIO</Text>
-        <Text style={styles.title}>Shared mobile foundation</Text>
+        <Text style={styles.title}>Nền tảng mobile dùng chung</Text>
         <Text style={styles.description}>
-          This screen verifies that the React Native app can reach the shared
-          API. The service catalog is intentionally out of scope for this
-          baseline.
+          Màn hình này kiểm tra ứng dụng React Native có thể kết nối tới API
+          dùng chung. Danh mục dịch vụ chưa nằm trong phạm vi của baseline này.
         </Text>
 
         <View style={styles.card}>
@@ -102,11 +90,11 @@ export default function App() {
               />
             )}
             <View>
-              <Text style={styles.label}>API HEALTH</Text>
+              <Text style={styles.label}>TRẠNG THÁI API</Text>
               <Text style={styles.status}>
-                {requestState.kind === 'loading' && 'Checking…'}
-                {requestState.kind === 'success' && 'Connected'}
-                {requestState.kind === 'error' && 'Not connected'}
+                {requestState.kind === 'loading' && 'Đang kiểm tra…'}
+                {requestState.kind === 'success' && 'Đã kết nối'}
+                {requestState.kind === 'error' && 'Chưa kết nối'}
               </Text>
             </View>
           </View>
@@ -114,10 +102,10 @@ export default function App() {
           {requestState.kind === 'success' && (
             <View style={styles.details}>
               <Text style={styles.detailText}>
-                Service: {requestState.data.service}
+                Dịch vụ: {requestState.data.service}
               </Text>
               <Text style={styles.detailText}>
-                Database: {requestState.data.database}
+                Cơ sở dữ liệu: {requestState.data.database}
               </Text>
             </View>
           )}
@@ -137,18 +125,18 @@ export default function App() {
               pressed && styles.buttonPressed,
             ]}
           >
-            <Text style={styles.buttonText}>Check again</Text>
+            <Text style={styles.buttonText}>Kiểm tra lại</Text>
           </Pressable>
         </View>
 
         <Text style={styles.hint}>
-          Android Emulator normally uses 10.0.2.2. A physical phone must use
-          the API machine's LAN address in apps/mobile/.env.
+          Android Emulator thường dùng 10.0.2.2. Điện thoại thật phải dùng địa
+          chỉ LAN của máy chạy API trong apps/mobile/.env.
         </Text>
       </ScrollView>
       <StatusBar style="dark" />
     </SafeAreaView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -259,4 +247,4 @@ const styles = StyleSheet.create({
     lineHeight: 19,
     marginTop: 18,
   },
-});
+})

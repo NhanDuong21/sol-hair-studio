@@ -1,30 +1,30 @@
-## Summary
+## Tóm tắt
 
-- <!-- Summarize the change in one or two bullets. -->
+- <!-- Tóm tắt thay đổi trong một hoặc hai gạch đầu dòng. -->
 
-## Linked issue
+## Issue liên quan
 
 Closes #
 
-## Scope boundaries
+## Ranh giới phạm vi
 
-- Included:
-- Not included:
+- Bao gồm:
+- Không bao gồm:
 
-## Verification
+## Kiểm tra
 
 - [ ] `npm run lint`
 - [ ] `npm run typecheck`
 - [ ] `npm test`
 - [ ] `npm run build`
 
-Manual verification actually performed:
+Kiểm tra thủ công đã thực sự thực hiện:
 
-- [ ] Web browser (name/version):
-- [ ] Android emulator/device (model/API):
-- [ ] iOS simulator/device (model/iOS):
-- [ ] MongoDB connection:
+- [ ] Trình duyệt web (tên/phiên bản):
+- [ ] Trình giả lập hoặc thiết bị Android (model/API):
+- [ ] Trình giả lập hoặc thiết bị iOS (model/iOS):
+- [ ] Kết nối MongoDB:
 
-## Evidence and review notes
+## Bằng chứng và lưu ý khi xem xét
 
-Add screenshots, relevant output, known limitations and follow-up issues. Leave unchecked environments explicitly unverified.
+Thêm ảnh chụp màn hình, kết quả liên quan, giới hạn đã biết và issue tiếp theo. Môi trường chưa được đánh dấu phải được ghi rõ là chưa kiểm chứng.
