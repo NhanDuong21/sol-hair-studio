@@ -18,7 +18,10 @@
 
 - Bắt đầu từ issue có mục tiêu kiểm thử được, phụ thuộc, phần không bao gồm và điều kiện nghiệm thu.
 - Dùng nhánh tập trung như `feat/<issue>-ten-ngan`, `fix/<issue>-ten-ngan` hoặc `chore/<issue>-ten-ngan`.
-- Không push trực tiếp vào `main`, tự merge PR, hạ rule bảo vệ nhánh hoặc bỏ qua kiểm tra đang thất bại.
+- Không ai, kể cả admin, được push trực tiếp vào `main`; mọi thay đổi phải đi qua pull request. Không hạ rule bảo vệ nhánh hoặc bỏ qua kiểm tra đang thất bại.
+- Trước khi merge, check bắt buộc `Lint, test and build` phải thành công, nhánh phải cập nhật theo rule hiện hành và mọi conversation phải được resolve. Không force-push hoặc xóa `main`.
+- `NhanDuong21` là repository owner/admin và được phép merge PR do chính mình tạo khi các điều kiện bắt buộc đã đạt. Với PR của thành viên khác, approval của chính tác giả không được tính là review độc lập; PR phải có ít nhất một approval từ cộng tác viên khác trước khi merge.
+- Branch protection hiện dùng `0 approvals` để owner có thể tự merge nên GitHub cũng không chặn collaborator có quyền write tự merge. Đây là giới hạn kỹ thuật phải tuân thủ bằng quy trình cho đến khi nhóm bật ruleset yêu cầu một approval và cho repository admin bypass chỉ qua pull request.
 - Giữ mỗi commit tập trung. Dẫn issue trong PR và chỉ dùng `Closes #<số>` khi PR giải quyết đầy đủ issue đó.
 - Để công việc chưa assign cho đến khi nhóm thống nhất người phụ trách. Không suy đoán kỹ năng hoặc thời gian rảnh từ username.
 - Cập nhật trạng thái Project trung thực: việc bị chặn hoặc chưa rõ nằm ở Backlog; việc đủ điều kiện mới sang Ready; mã nguồn đang chờ review nằm ở In Review.

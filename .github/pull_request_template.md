@@ -17,6 +17,12 @@ Closes #
 - [ ] `npm test`
 - [ ] `npm run build`
 
+## Điều kiện review và merge
+
+- [ ] Check bắt buộc `Lint, test and build` đã thành công và nhánh đã cập nhật theo rule hiện hành.
+- [ ] Mọi conversation đã được resolve.
+- [ ] Đã áp dụng đúng policy review: `NhanDuong21` có thể merge PR của chính mình sau khi đạt các điều kiện bắt buộc; PR của thành viên khác cần ít nhất một approval từ cộng tác viên khác và approval của tác giả không được tính.
+
 Kiểm tra thủ công đã thực sự thực hiện:
 
 - [ ] Trình duyệt web (tên/phiên bản):
