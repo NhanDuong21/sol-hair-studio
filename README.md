@@ -21,10 +21,10 @@ Trên Windows PowerShell:
 ```powershell
 nvm install 24.15.0
 nvm use 24.15.0
-npm install
+npm ci
 ```
 
-Nếu không dùng NVM for Windows, cài một bản Node 24 LTS tương thích với trường `engines` trong `package.json` rồi chạy `npm install` ở thư mục gốc. Repository dùng một `package-lock.json` chung; không chạy `npm install` riêng trong từng app.
+Nếu không dùng NVM for Windows, cài một bản Node 24 LTS tương thích với trường `engines` trong `package.json` rồi chạy `npm ci` ở thư mục gốc. Repository dùng một `package-lock.json` chung; không cài dependency riêng trong từng app. Chỉ dùng `npm install` khi chủ động thay đổi dependency và phải commit lockfile tương ứng.
 
 ## Cấu hình môi trường
 
@@ -67,8 +67,15 @@ Với điện thoại thật, cho phép Node.js qua Windows Firewall nếu đư�
 ## Quy ước giao diện
 
 - Giao diện web dùng lớp tiện ích của Tailwind CSS. `apps/web/src/index.css` chỉ nhập Tailwind; không tổ chức giao diện bằng các file CSS viết tay theo từng thành phần.
-- React Native dùng `StyleSheet` native vì Tailwind CSS của web không áp dụng trực tiếp cho Android/iOS. Chỉ thêm NativeWind hoặc giải pháp tương tự khi nhóm thống nhất trong một issue riêng.
+- React Native dùng `StyleSheet` native vì Tailwind CSS của web không áp dụng trực tiếp cho Android/iOS. Chỉ thêm NativeWind hoặc giải pháp tương tự sau khi nhóm ghi nhận quyết định trong Sheet.
 - Thành phần giao diện dùng file `.jsx`; toàn repository không dùng file `.ts` hoặc `.tsx`.
+
+## Quy tắc mở rộng kiến trúc
+
+- Giữ `apps/api/src/app.js` cho việc ghép middleware, route và xử lý lỗi chung. Khi một miền nghiệp vụ có nhiều route, tách theo miền dưới `apps/api/src/modules/<ten-mien>` thay vì làm `app.js` phình to.
+- Giữ lời gọi API của web và mobile trong `src/api.js`. Khi có màn hình hoặc cụm giao diện độc lập, tách khỏi `App.jsx` thành component/screen nhỏ; không tạo abstraction trước khi có nhu cầu thật.
+- Web và mobile dùng chung hợp đồng dữ liệu, không dùng chung component giao diện. Chỉ tạo package dùng chung khi có mã JavaScript thuần thực sự được cả hai phía dùng và có test bảo vệ hợp đồng đó.
+- API base URL luôn đi qua biến môi trường; timeout, hủy request và bỏ qua kết quả cũ phải được giữ khi thêm luồng gọi API mới.
 
 ## Kiểm tra
 
@@ -92,4 +99,14 @@ npm run bundle:mobile
 
 ## Cộng tác
 
-GitHub Issues là nguồn theo dõi công việc duy nhất. Mỗi thay đổi đi từ issue sang nhánh rồi pull request; không push thẳng vào `main`. Quy tắc chi tiết dành cho thành viên và trợ lý mã nguồn nằm trong [AGENTS.md](AGENTS.md).
+[Sol Hair Studio — Kế hoạch & phân công](https://docs.google.com/spreadsheets/d/1mKBFo0c1PcSJEVwbI80AAsorL47a7VyGk-nE0hIGLbw/edit) là nguồn phân công chính. Mỗi công việc có mã cố định dạng `SOL-xxx`; nhóm thống nhất người làm và hạn trước khi điền vào Sheet.
+
+Luồng làm việc chuẩn:
+
+1. Chọn công việc trên Sheet và chuyển trạng thái sang `Đang làm` sau khi nhóm thống nhất.
+2. Tạo nhánh riêng, ví dụ `feat/SOL-003-service-catalog` hoặc `fix/SOL-008-api-timeout`.
+3. Triển khai, chạy kiểm tra liên quan và mở pull request có mã việc cùng liên kết Sheet.
+4. Review, sửa phản hồi và chỉ merge khi check `Lint, test and build` thành công theo policy repository.
+5. Sau khi nghiệm thu/merge, cập nhật trạng thái và bằng chứng trên Sheet.
+
+GitHub Issues hiện có được giữ làm lịch sử hoặc nguồn tham chiếu. Không bắt buộc tạo issue, GitHub Project, Sprint hay milestone cho công việc mới và không push thẳng vào `main`. Quy tắc đầy đủ dành cho thành viên và trợ lý mã nguồn nằm trong [AGENTS.md](AGENTS.md).

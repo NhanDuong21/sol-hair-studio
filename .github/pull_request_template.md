@@ -1,35 +1,32 @@
+## Mã việc và Sheet
+
+- Mã việc: `SOL-xxx`
+- Sheet: [Sol Hair Studio — Kế hoạch & phân công](https://docs.google.com/spreadsheets/d/1mKBFo0c1PcSJEVwbI80AAsorL47a7VyGk-nE0hIGLbw/edit)
+
 ## Tóm tắt
 
 - <!-- Tóm tắt thay đổi trong một hoặc hai gạch đầu dòng. -->
 
-## Issue liên quan
-
-Closes #
-
-## Ranh giới phạm vi
+## Phạm vi
 
 - Bao gồm:
-- Không bao gồm:
+- Chủ động không thực hiện:
 
-## Kiểm tra
+## Kiểm tra và bằng chứng
 
 - [ ] `npm run lint`
 - [ ] `npm test`
 - [ ] `npm run build`
+- [ ] Check bắt buộc `Lint, test and build` đã thành công.
 
-## Điều kiện review và merge
+Kiểm tra thủ công đã thực sự thực hiện (ghi rõ tên/phiên bản/môi trường; không đánh dấu nếu chưa chạy):
 
-- [ ] Check bắt buộc `Lint, test and build` đã thành công và nhánh đã cập nhật theo rule hiện hành.
-- [ ] Mọi conversation đã được resolve.
-- [ ] Đã áp dụng đúng policy review: `NhanDuong21` có thể merge PR của chính mình sau khi đạt các điều kiện bắt buộc; PR của thành viên khác cần ít nhất một approval từ cộng tác viên khác và approval của tác giả không được tính.
+- Trình duyệt:
+- Android:
+- iOS:
+- Cơ sở dữ liệu:
+- Ảnh chụp hoặc log:
 
-Kiểm tra thủ công đã thực sự thực hiện:
+## Giới hạn còn lại
 
-- [ ] Trình duyệt web (tên/phiên bản):
-- [ ] Trình giả lập hoặc thiết bị Android (model/API):
-- [ ] Trình giả lập hoặc thiết bị iOS (model/iOS):
-- [ ] Kết nối MongoDB:
-
-## Bằng chứng và lưu ý khi xem xét
-
-Thêm ảnh chụp màn hình, kết quả liên quan, giới hạn đã biết và issue tiếp theo. Môi trường chưa được đánh dấu phải được ghi rõ là chưa kiểm chứng.
+- Rủi ro, phụ thuộc, môi trường chưa kiểm chứng và mã việc tiếp theo:

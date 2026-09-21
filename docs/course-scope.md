@@ -22,7 +22,7 @@ Các lựa chọn dưới đây tạo điểm bắt đầu dễ bảo trì và c
 - API dùng Express 5 và JavaScript.
 - Dùng MongoDB với Mongoose 9 khi bắt đầu lưu dữ liệu.
 - Web và mobile dùng một hợp đồng API chung, nhưng base URL được cấu hình riêng theo môi trường chạy.
-- GitHub Issues, milestone, trường Project và PR dùng để lập kế hoạch và lưu bằng chứng; không có backlog Markdown song song.
+- Google Sheet [Sol Hair Studio — Kế hoạch & phân công](https://docs.google.com/spreadsheets/d/1mKBFo0c1PcSJEVwbI80AAsorL47a7VyGk-nE0hIGLbw/edit) là nguồn phân công chính; PR lưu thay đổi mã nguồn và bằng chứng review. Không bắt buộc dùng GitHub Issue, Project, Sprint hoặc milestone cho công việc mới.
 
 ## Đối chiếu môn học tạm thời
 
@@ -43,4 +43,4 @@ Các lựa chọn dưới đây tạo điểm bắt đầu dễ bảo trì và c
 - Khả năng nhận việc, người phụ trách và vòng review đã thống nhất trong nhóm.
 - Ràng buộc dữ liệu và quyền riêng tư, vai trò xác thực và việc thanh toán là mô phỏng hay tích hợp thật.
 
-Cho đến khi các thông tin trên được xác nhận, issue phụ thuộc vào chúng phải ở Backlog và không được tuyên bố đã đáp ứng rubric.
+Cho đến khi các thông tin trên được xác nhận, công việc phụ thuộc vào chúng phải giữ trạng thái `Bị chặn` hoặc nội dung `Chưa chốt` trên Sheet và không được tuyên bố đã đáp ứng rubric.
