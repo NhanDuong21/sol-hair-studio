@@ -1,0 +1,25 @@
+{
+  "name": "sol-hair-studio",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared foundation for the Sol Hair Studio web, mobile, and API applications.",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:api": "npm run dev --workspace @sol-hair/api",
+    "dev:web": "npm run dev --workspace @sol-hair/web",
+    "dev:mobile": "npm run start --workspace @sol-hair/mobile",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "test:api": "npm run test --workspace @sol-hair/api",
+    "build": "npm run build --workspaces --if-present",
+    "build:web": "npm run build --workspace @sol-hair/web",
+    "bundle:mobile": "npm run build --workspace @sol-hair/mobile"
+  },
+  "engines": {
+    "node": ">=24.3.0 <25",
+    "npm": ">=11.0.0 <12"
+  },
+  "packageManager": "npm@11.12.1"
+}
