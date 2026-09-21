@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "build": "node --check src/server.js && node --check src/app.js && node --check src/config.js && node --check src/database.js"
+    "build": "node scripts/check-source.js"
   },
   "dependencies": {
     "cors": "^2.8.6",

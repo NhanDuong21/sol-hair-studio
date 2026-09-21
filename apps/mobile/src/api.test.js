@@ -3,7 +3,7 @@ import {
   createLatestRequest,
   fetchHealth,
   normalizeBaseUrl,
-} from './api'
+} from './api.js'
 
 afterEach(() => {
   vi.useRealTimers()
@@ -12,20 +12,15 @@ afterEach(() => {
 
 describe('normalizeBaseUrl', () => {
   it('xóa khoảng trắng và dấu gạch chéo ở cuối URL', () => {
-    expect(normalizeBaseUrl(' http://localhost:4000/// ')).toBe(
-      'http://localhost:4000',
+    expect(normalizeBaseUrl(' http://10.0.2.2:4000/// ')).toBe(
+      'http://10.0.2.2:4000',
     )
   })
 })
 
 describe('fetchHealth', () => {
-  it('gọi đúng health endpoint dùng chung', async () => {
-    const payload = {
-      status: 'ok',
-      service: 'sol-hair-api',
-      database: 'not-configured',
-      timestamp: '2026-09-18T00:00:00.000Z',
-    }
+  it('gọi đúng health endpoint với signal có thể huỷ', async () => {
+    const payload = { status: 'ok', service: 'sol-hair-api' }
     const fetchMock = vi.fn().mockResolvedValue(
       new Response(JSON.stringify(payload), {
         status: 200,
@@ -34,9 +29,9 @@ describe('fetchHealth', () => {
     )
     vi.stubGlobal('fetch', fetchMock)
 
-    await expect(fetchHealth('http://localhost:4000/')).resolves.toEqual(payload)
+    await expect(fetchHealth('http://10.0.2.2:4000/')).resolves.toEqual(payload)
     expect(fetchMock).toHaveBeenCalledWith(
-      'http://localhost:4000/api/health',
+      'http://10.0.2.2:4000/api/health',
       { signal: expect.any(AbortSignal) },
     )
   })
@@ -56,7 +51,7 @@ describe('fetchHealth', () => {
       }),
     )
 
-    const pending = fetchHealth('http://localhost:4000', { timeoutMs: 100 })
+    const pending = fetchHealth('http://10.0.2.2:4000', { timeoutMs: 100 })
     const assertion = expect(pending).rejects.toThrow('đã hết thời gian chờ')
     await vi.advanceTimersByTimeAsync(100)
 
@@ -86,7 +81,7 @@ describe('createLatestRequest', () => {
     await expect(first).resolves.toEqual({ kind: 'ignored' })
   })
 
-  it('bỏ qua kết quả sau khi component huỷ request', async () => {
+  it('bỏ qua request đã huỷ khi màn hình unmount', async () => {
     const manager = createLatestRequest()
     const pending = manager.run(
       (signal) =>

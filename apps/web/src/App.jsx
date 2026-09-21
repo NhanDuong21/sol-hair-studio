@@ -1,5 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { fetchHealth, normalizeBaseUrl } from './api'
+import {
+  createLatestRequest,
+  fetchHealth,
+  getHealthErrorMessage,
+  normalizeBaseUrl,
+} from './api'
 
 const statusStyles = {
   loading: 'bg-[#b78024] ring-[#b78024]/15',
@@ -22,47 +27,38 @@ function App() {
     [],
   )
   const [requestState, setRequestState] = useState({ kind: 'loading' })
+  const requestManager = useMemo(() => createLatestRequest(), [])
 
-  const checkApi = useCallback(
-    async (signal) => {
-      setRequestState({ kind: 'loading' })
+  const loadHealth = useCallback(async () => {
+    const result = await requestManager.run((signal) =>
+      fetchHealth(apiBaseUrl, { signal }),
+    )
 
-      try {
-        const data = await fetchHealth(apiBaseUrl, signal)
-        setRequestState({ kind: 'success', data })
-      } catch (error) {
-        if (error instanceof DOMException && error.name === 'AbortError') return
+    if (result.kind === 'success') {
+      setRequestState({ kind: 'success', data: result.value })
+    } else if (result.kind === 'error') {
+      setRequestState({
+        kind: 'error',
+        message: getHealthErrorMessage(result.error),
+      })
+    }
+  }, [apiBaseUrl, requestManager])
 
-        setRequestState({
-          kind: 'error',
-          message:
-            error instanceof Error ? error.message : 'Không thể kết nối API.',
-        })
-      }
-    },
-    [apiBaseUrl],
-  )
+  const checkApi = useCallback(async () => {
+    setRequestState({ kind: 'loading' })
+    await loadHealth()
+  }, [loadHealth])
 
   useEffect(() => {
-    const controller = new AbortController()
+    const initialRequest = setTimeout(() => {
+      void loadHealth()
+    }, 0)
 
-    void (async () => {
-      try {
-        const data = await fetchHealth(apiBaseUrl, controller.signal)
-        setRequestState({ kind: 'success', data })
-      } catch (error) {
-        if (error instanceof DOMException && error.name === 'AbortError') return
-
-        setRequestState({
-          kind: 'error',
-          message:
-            error instanceof Error ? error.message : 'Không thể kết nối API.',
-        })
-      }
-    })()
-
-    return () => controller.abort()
-  }, [apiBaseUrl])
+    return () => {
+      clearTimeout(initialRequest)
+      requestManager.cancel()
+    }
+  }, [loadHealth, requestManager])
 
   return (
     <main className="min-h-svh min-w-80 bg-[#f7f3ed] bg-[radial-gradient(circle_at_12%_8%,#eadfd2_0,transparent_32%),radial-gradient(circle_at_88%_88%,#e4d3c7_0,transparent_28%)] px-5 py-9 font-sans text-[#22201f] sm:grid sm:place-items-center sm:py-12">
@@ -78,7 +74,8 @@ function App() {
         </h1>
         <p className="mb-9 max-w-2xl text-[1.08rem] text-[#716d69]">
           Đây là màn hình kiểm tra kết nối giữa website React và API chung.
-          Danh mục dịch vụ sẽ được triển khai trong issue tiếp theo.
+          Danh mục dịch vụ sẽ được triển khai trong công việc tiếp theo trên
+          Sheet.
         </p>
 
         <div className="rounded-[22px] border border-[#ded6cb] bg-white/80 p-[22px] shadow-[0_22px_60px_rgba(72,49,38,0.11)] backdrop-blur-md sm:p-7">
@@ -125,7 +122,8 @@ function App() {
             <button
               type="button"
               onClick={() => void checkApi()}
-              className="shrink-0 cursor-pointer rounded-full bg-[#8d4939] px-[15px] py-2.5 font-bold text-white transition-colors hover:bg-[#74392d] focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-[#8d4939]/35"
+              disabled={requestState.kind === 'loading'}
+              className="shrink-0 cursor-pointer rounded-full bg-[#8d4939] px-[15px] py-2.5 font-bold text-white transition-colors hover:bg-[#74392d] focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-[#8d4939]/35 disabled:cursor-wait disabled:opacity-60"
             >
               Kiểm tra lại
             </button>

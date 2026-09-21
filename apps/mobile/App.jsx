@@ -1,78 +1,82 @@
 import { StatusBar } from 'expo-status-bar'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   ActivityIndicator,
   Pressable,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   View,
 } from 'react-native'
+import {
+  SafeAreaProvider,
+  SafeAreaView,
+} from 'react-native-safe-area-context'
+import {
+  createLatestRequest,
+  fetchHealth,
+  getHealthErrorMessage,
+  normalizeBaseUrl,
+} from './src/api'
 
-const apiBaseUrl = (
-  process.env.EXPO_PUBLIC_API_BASE_URL ?? 'http://localhost:4000'
-).replace(/\/+$/, '')
+const apiBaseUrl = normalizeBaseUrl(
+  process.env.EXPO_PUBLIC_API_BASE_URL ?? 'http://localhost:4000',
+)
 
 export default function App() {
+  return (
+    <SafeAreaProvider>
+      <HealthScreen />
+    </SafeAreaProvider>
+  )
+}
+
+function HealthScreen() {
   const [requestState, setRequestState] = useState({ kind: 'loading' })
+  const requestManager = useMemo(() => createLatestRequest(), [])
 
-  const checkApi = useCallback(async (signal) => {
-    setRequestState({ kind: 'loading' })
+  const loadHealth = useCallback(async () => {
+    const result = await requestManager.run((signal) =>
+      fetchHealth(apiBaseUrl, { signal }),
+    )
 
-    try {
-      const response = await fetch(`${apiBaseUrl}/api/health`, { signal })
-      if (!response.ok) throw new Error(`API trả về HTTP ${response.status}.`)
-
-      const data = await response.json()
-      setRequestState({ kind: 'success', data })
-    } catch (error) {
-      if (error instanceof Error && error.name === 'AbortError') return
-
+    if (result.kind === 'success') {
+      setRequestState({ kind: 'success', data: result.value })
+    } else if (result.kind === 'error') {
       setRequestState({
         kind: 'error',
-        message:
-          error instanceof Error ? error.message : 'Không thể kết nối API.',
+        message: getHealthErrorMessage(result.error),
       })
     }
-  }, [])
+  }, [requestManager])
+
+  const checkApi = useCallback(async () => {
+    setRequestState({ kind: 'loading' })
+    await loadHealth()
+  }, [loadHealth])
 
   useEffect(() => {
-    const controller = new AbortController()
+    const initialRequest = setTimeout(() => {
+      void loadHealth()
+    }, 0)
 
-    void (async () => {
-      try {
-        const response = await fetch(`${apiBaseUrl}/api/health`, {
-          signal: controller.signal,
-        })
-        if (!response.ok) {
-          throw new Error(`API trả về HTTP ${response.status}.`)
-        }
-
-        const data = await response.json()
-        setRequestState({ kind: 'success', data })
-      } catch (error) {
-        if (error instanceof Error && error.name === 'AbortError') return
-
-        setRequestState({
-          kind: 'error',
-          message:
-            error instanceof Error ? error.message : 'Không thể kết nối API.',
-        })
-      }
-    })()
-
-    return () => controller.abort()
-  }, [])
+    return () => {
+      clearTimeout(initialRequest)
+      requestManager.cancel()
+    }
+  }, [loadHealth, requestManager])
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView
+      edges={['top', 'right', 'bottom', 'left']}
+      style={styles.safeArea}
+    >
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.eyebrow}>SOL HAIR STUDIO</Text>
         <Text style={styles.title}>Nền tảng mobile dùng chung</Text>
         <Text style={styles.description}>
           Màn hình này kiểm tra ứng dụng React Native có thể kết nối tới API
-          dùng chung. Danh mục dịch vụ chưa nằm trong phạm vi của baseline này.
+          dùng chung. Danh mục dịch vụ chưa nằm trong phạm vi của nền hiện tại.
         </Text>
 
         <View style={styles.card}>
@@ -119,10 +123,13 @@ export default function App() {
           </Text>
           <Pressable
             accessibilityRole="button"
+            accessibilityState={{ disabled: requestState.kind === 'loading' }}
+            disabled={requestState.kind === 'loading'}
             onPress={() => void checkApi()}
             style={({ pressed }) => [
               styles.button,
               pressed && styles.buttonPressed,
+              requestState.kind === 'loading' && styles.buttonDisabled,
             ]}
           >
             <Text style={styles.buttonText}>Kiểm tra lại</Text>
@@ -235,6 +242,9 @@ const styles = StyleSheet.create({
   },
   buttonPressed: {
     opacity: 0.8,
+  },
+  buttonDisabled: {
+    opacity: 0.6,
   },
   buttonText: {
     color: '#ffffff',
