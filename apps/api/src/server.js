@@ -1,6 +1,9 @@
 import { app } from './app.js'
-import { config } from './config.js'
-import { connectToDatabase, disconnectFromDatabase } from './database.js'
+import { config } from './config/env.js'
+import {
+  connectToDatabase,
+  disconnectFromDatabase,
+} from './config/database.js'
 
 async function start() {
   await connectToDatabase(config.mongoUri)

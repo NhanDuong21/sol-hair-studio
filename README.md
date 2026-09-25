@@ -72,10 +72,14 @@ Với điện thoại thật, cho phép Node.js qua Windows Firewall nếu đư�
 
 ## Quy tắc mở rộng kiến trúc
 
-- Giữ `apps/api/src/app.js` cho việc ghép middleware, route và xử lý lỗi chung. Khi một miền nghiệp vụ có nhiều route, tách theo miền dưới `apps/api/src/modules/<ten-mien>` thay vì làm `app.js` phình to.
-- Giữ lời gọi API của web và mobile trong `src/api.js`. Khi có màn hình hoặc cụm giao diện độc lập, tách khỏi `App.jsx` thành component/screen nhỏ; không tạo abstraction trước khi có nhu cầu thật.
+- API đặt cấu hình trong `src/config`, middleware HTTP chung trong `src/middlewares`, router gốc trong `src/routes` và mỗi miền nghiệp vụ dưới `src/modules/<ten-mien>`.
+- Web đặt route và layout ở cấp ứng dụng; mỗi chức năng nằm dưới `src/features/<feature>` theo vai trò page, component, hook và API.
+- Mobile đặt navigator ở `src/navigation`; mỗi chức năng nằm dưới `src/features/<feature>` theo vai trò screen, component, hook và API.
+- HTTP helper và quản lý request mới nhất nằm trong `src/lib` riêng của từng app. Không dùng component web trong mobile hoặc ngược lại.
 - Web và mobile dùng chung hợp đồng dữ liệu, không dùng chung component giao diện. Chỉ tạo package dùng chung khi có mã JavaScript thuần thực sự được cả hai phía dùng và có test bảo vệ hợp đồng đó.
-- API base URL luôn đi qua biến môi trường; timeout, hủy request và bỏ qua kết quả cũ phải được giữ khi thêm luồng gọi API mới.
+- API base URL luôn đi qua biến môi trường; HTTP helper chịu timeout, hủy và dọn request; quản lý request mới nhất chịu việc bỏ qua kết quả cũ.
+
+Đọc luồng và cây thư mục sau refactor tại [docs/kien-truc-va-luong-chay.md](docs/kien-truc-va-luong-chay.md).
 
 ## Kiểm tra
 
