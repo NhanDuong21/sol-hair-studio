@@ -1,27 +1,18 @@
+import { Router } from 'express'
 import request from 'supertest'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { app, createApp } from './app.js'
+import { createApp } from '../app.js'
+import { errorHandler } from './error-handler.js'
 
 afterEach(() => {
   vi.restoreAllMocks()
 })
 
-describe('GET /api/health', () => {
-  it('báo API hoạt động mà không cần thông tin đăng nhập cơ sở dữ liệu', async () => {
-    const response = await request(app).get('/api/health').expect(200)
-
-    expect(response.body).toMatchObject({
-      status: 'ok',
-      service: 'sol-hair-api',
-      database: 'not-configured',
-    })
-    expect(Number.isNaN(Date.parse(response.body.timestamp))).toBe(false)
-  })
-})
-
 describe('phản hồi lỗi JSON thống nhất', () => {
   it('trả 404 có mã lỗi khi route không tồn tại', async () => {
-    const response = await request(app).get('/api/khong-ton-tai').expect(404)
+    const response = await request(createApp())
+      .get('/api/khong-ton-tai')
+      .expect(404)
 
     expect(response.body).toEqual({
       status: 'error',
@@ -31,7 +22,7 @@ describe('phản hồi lỗi JSON thống nhất', () => {
   })
 
   it('trả 400 khi request chứa JSON không hợp lệ', async () => {
-    const response = await request(app)
+    const response = await request(createApp())
       .post('/api/health')
       .set('Content-Type', 'application/json')
       .send('{"status":')
@@ -44,17 +35,14 @@ describe('phản hồi lỗi JSON thống nhất', () => {
     })
   })
 
-  it('trả 500 an toàn mà không cần endpoint lỗi trong ứng dụng thật', async () => {
+  it('trả 500 an toàn cho lỗi ngoài dự kiến', async () => {
     const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {})
-    const testApp = createApp({
-      registerRoutes(router) {
-        router.get('/api/test-only/error', () => {
-          throw new Error('chi-tiet-noi-bo-khong-duoc-lo')
-        })
-      },
+    const routes = Router()
+    routes.get('/api/test-only/error', () => {
+      throw new Error('chi-tiet-noi-bo-khong-duoc-lo')
     })
 
-    const response = await request(testApp)
+    const response = await request(createApp({ routes }))
       .get('/api/test-only/error')
       .expect(500)
 
@@ -74,5 +62,15 @@ describe('phản hồi lỗi JSON thống nhất', () => {
         name: 'Error',
       }),
     )
+  })
+
+  it('chuyển tiếp lỗi nếu headers đã được gửi', () => {
+    const error = new Error('late failure')
+    const response = { headersSent: true }
+    const next = vi.fn()
+
+    errorHandler(error, { method: 'GET', path: '/' }, response, next)
+
+    expect(next).toHaveBeenCalledWith(error)
   })
 })

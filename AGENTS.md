@@ -37,6 +37,13 @@
 - Hợp đồng API và mô hình dữ liệu được web và mobile dùng chung. Mọi thay đổi phải mô tả ảnh hưởng tương thích.
 - Base URL của API phải cấu hình được theo môi trường. Không giả định trình duyệt, Android Emulator, iOS Simulator và điện thoại thật dùng cùng một địa chỉ host.
 - Chỉ thêm dependency phục vụ trực tiếp cho công việc. Giữ phiên bản tương thích với nền Node/Expo trong repository và commit lockfile ở thư mục gốc.
+- Giữ kiến trúc một monorepo với ba workspace `apps/api`, `apps/web`, `apps/mobile`; chỉ dùng `package-lock.json` ở root.
+- API: cấu hình ở `src/config`, middleware HTTP ở `src/middlewares`, gom route ở `src/routes`, chức năng theo miền ở `src/modules/<feature>`; `app.js` chỉ ghép middleware và router, `server.js` khởi động server/kết nối database/dừng êm.
+- Web: dùng `src/routes/AppRoutes.jsx`, `src/layouts` và `src/features/<feature>/{pages,components,hooks,api,tests}`. `App.jsx` ghép router; `main.jsx` là entry React.
+- Mobile: dùng `src/navigation/RootNavigator.jsx` và `src/features/<feature>/{screens,components,hooks,api,tests}`. `App.jsx` đặt một `SafeAreaProvider` và một `NavigationContainer`; navigator hiện ẩn header để giữ giao diện health.
+- HTTP helper và kiểm soát request mới nhất nằm riêng trong `src/lib` của mỗi app. Helper HTTP chịu base URL, response JSON, timeout, abort và cleanup; `latest-request.js` hủy request cũ và bỏ qua kết quả cũ. API của feature chỉ chọn endpoint; hook sở hữu trạng thái/lifecycle; page/screen ghép giao diện; controller xử lý HTTP, service mới chứa nghiệp vụ khi thực sự cần.
+- Không tạo trước module dịch vụ/đặt lịch/xác thực/thanh toán, shared UI giữa web/mobile, barrel export hoặc tầng framework không có nhu cầu thật. Không phải feature nào cũng cần đủ các file ngay từ đầu.
+- Tài liệu mô tả luồng thật và bảng đường dẫn cũ/mới nằm tại `docs/kien-truc-va-luong-chay.md`.
 - Không tuyên bố đã kiểm thử trình giả lập, thiết bị, cơ sở dữ liệu hoặc trình duyệt nếu chưa thật sự chạy.
 
 ## Kiểm tra bắt buộc và bàn giao
