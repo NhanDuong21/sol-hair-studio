@@ -6,12 +6,10 @@ import { notFound } from './middlewares/not-found.js'
 import { apiRouter } from './routes/index.js'
 
 const allowedOrigins =
-  config.corsOrigin === '*'
-    ? true
-    : config.corsOrigin
-        .split(',')
-        .map((origin) => origin.trim())
-        .filter(Boolean)
+  config.corsOrigin === '*' ? true : config.corsOrigin
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean)
 
 export function createApp({ routes = apiRouter } = {}) {
   const app = express()
