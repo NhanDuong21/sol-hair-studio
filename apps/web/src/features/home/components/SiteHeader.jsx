@@ -25,7 +25,7 @@ function Brand() {
 export default function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/70 bg-canvas/90 backdrop-blur-md">
-      <div className="mx-auto flex h-[76px] max-w-[1400px] items-center justify-between px-5 sm:h-[88px] sm:px-8 lg:px-12">
+      <div className="mx-auto flex h-[76px] max-w-7xl items-center justify-between px-4 sm:h-20 sm:px-6 lg:px-8">
         <Brand />
         <nav aria-label="Điều hướng chính" className="hidden items-center gap-9 lg:flex">
           {links.map((link) => (

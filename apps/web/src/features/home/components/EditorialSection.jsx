@@ -26,17 +26,17 @@ export default function EditorialSection() {
     <section
       id="stories"
       aria-labelledby="stories-title"
-      className="scroll-mt-24 bg-white/70 py-16 sm:py-20 lg:py-24"
+      className="scroll-mt-24 bg-white/70 py-14 sm:py-16 lg:py-20"
     >
-      <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12">
-        <RevealOnScroll className="mb-9 flex items-end justify-between gap-6 sm:mb-12">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <RevealOnScroll className="mb-8 flex flex-col gap-4 sm:mb-9 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="mb-3 text-[0.68rem] font-semibold tracking-[0.24em] text-terracotta uppercase">
               Góc Sol
             </p>
             <h2
               id="stories-title"
-              className="font-display text-4xl leading-none tracking-tight text-ink sm:text-5xl lg:text-6xl"
+              className="mt-2 font-display text-3xl font-medium tracking-tight text-ink sm:text-4xl lg:text-5xl"
             >
               Xu hướng & cảm hứng.
             </h2>
@@ -47,7 +47,7 @@ export default function EditorialSection() {
           <span className="mb-1 hidden text-xs text-muted sm:block">Gợi ý biên tập mẫu</span>
         </RevealOnScroll>
 
-        <div className="grid gap-x-6 gap-y-10 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-x-6 gap-y-9 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-8">
           {stories.map((story, index) => (
             <RevealOnScroll key={story.title} delay={index * 80}>
               <article>
@@ -55,14 +55,14 @@ export default function EditorialSection() {
                   <img
                     src={story.image}
                     alt=""
-                    className="aspect-[1.34] w-full object-cover transition duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
+                    className="aspect-[1.6] w-full object-cover transition duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
                     loading="lazy"
                   />
                 </div>
                 <p className="mt-4 text-[0.62rem] font-semibold tracking-[0.19em] text-muted uppercase">
                   Nội dung mẫu · Góc Sol
                 </p>
-                <h3 className="mt-2 font-display text-[1.7rem] leading-tight text-ink sm:text-[1.9rem]">
+                <h3 className="mt-2 font-display text-xl leading-tight text-ink sm:text-2xl">
                   {story.title}
                 </h3>
                 <p className="mt-2 text-sm leading-6 text-muted">{story.description}</p>

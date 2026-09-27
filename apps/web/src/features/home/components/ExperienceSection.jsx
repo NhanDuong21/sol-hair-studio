@@ -11,27 +11,27 @@ export default function ExperienceSection() {
     <section
       id="experience"
       aria-labelledby="experience-title"
-      className="scroll-mt-24 py-16 sm:py-20 lg:py-28"
+      className="scroll-mt-24 py-14 sm:py-20 lg:py-24"
     >
-      <div className="mx-auto grid max-w-[1400px] items-center gap-12 px-5 sm:px-8 lg:grid-cols-2 lg:gap-20 lg:px-12">
-        <RevealOnScroll className="relative mx-auto w-full max-w-[620px]">
-          <div className="group overflow-hidden rounded-[34%_34%_24px_24px] bg-soft-surface">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-9 px-4 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:px-8">
+        <RevealOnScroll className="relative min-h-[330px] sm:min-h-[440px]">
+          <div className="group absolute left-0 top-0 h-[85%] w-[82%] overflow-hidden rounded-[2rem_6rem_2rem_2rem] bg-soft-surface shadow-[0_10px_32px_rgba(71,51,39,0.06)]">
             <img
               src="/images/experience-spa.jpg"
               alt="Khoảnh khắc thư giãn trong liệu trình chăm sóc tóc"
-              className="aspect-[0.92] w-full object-cover transition duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
+              className="h-full w-full object-cover transition duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
               loading="lazy"
             />
           </div>
-          <div className="group absolute -bottom-8 right-0 w-[43%] overflow-hidden rounded-[22px] border-[7px] border-canvas shadow-xl sm:-right-5">
+          <div className="group absolute bottom-0 right-0 h-[48%] w-[43%] overflow-hidden rounded-3xl border-[6px] border-canvas bg-soft-surface shadow-[0_18px_38px_rgba(71,51,39,0.12)]">
             <img
               src="/images/experience-cut.jpg"
               alt="Stylist chăm chút từng đường cắt"
-              className="aspect-[0.9] w-full object-cover transition duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
+              className="h-full w-full object-cover transition duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
               loading="lazy"
             />
           </div>
-          <p className="absolute bottom-3 left-3 rounded-full bg-white/95 px-4 py-2 text-xs text-ink shadow-sm sm:bottom-5 sm:left-5">
+          <p className="absolute bottom-[15%] left-4 rounded-full bg-white/95 px-4 py-2 text-xs text-ink shadow-sm sm:left-5">
             Một nghi thức nhỏ, dành cho bạn
           </p>
         </RevealOnScroll>
@@ -42,24 +42,24 @@ export default function ExperienceSection() {
           </p>
           <h2
             id="experience-title"
-            className="max-w-[620px] font-display text-4xl leading-[1.04] tracking-tight text-ink sm:text-5xl lg:text-6xl"
+          className="mt-3 max-w-xl font-display text-3xl font-medium leading-tight tracking-tight text-ink sm:text-4xl lg:text-5xl"
           >
             Chăm chút trong từng điểm chạm.
           </h2>
-          <p className="mt-5 max-w-xl text-sm leading-7 text-muted sm:text-base sm:leading-8">
+          <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted sm:text-base">
             Từ cuộc trò chuyện đầu tiên đến cách chăm sóc sau buổi hẹn, Sol dành thời gian để hiểu chất tóc và điều bạn mong muốn.
           </p>
-          <ul className="mt-8 divide-y divide-border border-y border-border">
+          <ul className="mt-6 space-y-3 border-y border-border/70 py-5 text-sm text-muted">
             {studioPromises.map((promise) => (
-              <li key={promise} className="flex items-center gap-3 py-4 text-sm text-ink/80">
-                <span className="text-terracotta" aria-hidden="true">✓</span>
+              <li key={promise} className="flex items-center gap-3">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-terracotta/10 text-terracotta" aria-hidden="true">✓</span>
                 {promise}
               </li>
             ))}
           </ul>
           <a
             href="#contact"
-            className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-terracotta transition hover:gap-3"
+            className="mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-medium text-terracotta transition hover:gap-3"
           >
             Khám phá Sol <span aria-hidden="true">→</span>
           </a>

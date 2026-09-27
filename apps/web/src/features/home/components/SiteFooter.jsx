@@ -6,7 +6,7 @@ const footerLinks = [
 export default function SiteFooter() {
   return (
     <footer id="contact" className="scroll-mt-24 border-t border-border bg-soft-surface/60">
-      <div className="mx-auto grid max-w-[1400px] gap-10 px-5 py-12 sm:px-8 sm:py-16 lg:grid-cols-[1.4fr_1fr_0.8fr] lg:px-12 lg:py-20">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[1.4fr_1fr_0.8fr] lg:px-8 lg:py-20">
         <div>
           <p className="font-display text-2xl font-semibold tracking-[0.2em] text-ink">
             SOL HAIR STUDIO

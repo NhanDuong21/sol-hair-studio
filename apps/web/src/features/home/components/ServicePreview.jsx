@@ -28,17 +28,17 @@ export default function ServicePreview() {
     <section
       id="services"
       aria-labelledby="services-title"
-      className="scroll-mt-24 bg-soft-surface/75 py-16 sm:py-20 lg:py-24"
+      className="scroll-mt-24 bg-soft-surface/75 py-14 sm:py-16 lg:py-20"
     >
-      <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12">
-        <RevealOnScroll className="mb-8 flex items-end justify-between gap-6 sm:mb-10">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <RevealOnScroll className="mb-7 flex flex-col gap-4 sm:mb-9 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="mb-3 text-[0.68rem] font-semibold tracking-[0.24em] text-terracotta uppercase">
               Dịch vụ tại Sol
             </p>
             <h2
               id="services-title"
-              className="font-display text-4xl leading-none tracking-tight text-ink sm:text-5xl lg:text-6xl"
+              className="mt-2 font-display text-3xl font-medium tracking-tight text-ink sm:text-4xl"
             >
               Dịch vụ dành cho bạn.
             </h2>
@@ -48,7 +48,7 @@ export default function ServicePreview() {
           </div>
           <a
             href="#services-list"
-            className="mb-1 hidden shrink-0 items-center gap-2 text-sm text-ink/70 transition hover:text-terracotta sm:flex"
+              className="inline-flex min-h-11 self-start items-center gap-2 text-sm text-ink/70 transition hover:text-terracotta sm:self-auto"
           >
             Xem tất cả dịch vụ <span aria-hidden="true">→</span>
           </a>
@@ -75,7 +75,7 @@ export default function ServicePreview() {
             </div>
           )}
           {state.kind === 'success' && state.data.length > 0 && (
-            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {state.data.map((service, index) => (
                 <RevealOnScroll key={service.id} delay={index * 80}>
                   <ServiceCard service={service} />
