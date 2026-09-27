@@ -1,1 +1,28 @@
 @import "tailwindcss";
+
+@theme {
+  --color-canvas: #f7f2ea;
+  --color-ink: #24211f;
+  --color-muted: #8c837a;
+  --color-terracotta: #a14f3d;
+  --color-terracotta-dark: #823c30;
+  --color-soft-surface: #f3ece3;
+  --color-border: #e7ddd2;
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+  background: var(--color-canvas);
+}
+
+::selection {
+  background: rgb(161 79 61 / 20%);
+  color: var(--color-terracotta-dark);
+}

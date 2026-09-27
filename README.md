@@ -4,17 +4,17 @@ Nền tảng dùng chung cho bài tập SDN302 và MMA301. Repository này chứ
 
 | Phần | Công nghệ hiện tại | Vai trò trong nền ban đầu |
 | --- | --- | --- |
-| `apps/web` | React + Vite + JavaScript/JSX + Tailwind CSS | Trang web thích ứng, gọi endpoint kiểm tra API |
+| `apps/web` | React + Vite + JavaScript/JSX + Tailwind CSS | Trang chủ thích ứng, lấy danh mục dịch vụ từ API |
 | `apps/mobile` | React Native + Expo + JavaScript/JSX | Ứng dụng Android/iOS, gọi endpoint kiểm tra API |
 | `apps/api` | Node.js + Express + JavaScript | API dùng chung và kết nối MongoDB tùy chọn |
 
-Đây mới là nền kỹ thuật ban đầu. Repository **chưa** tuyên bố đáp ứng rubric, chưa có đăng nhập, đặt lịch, thanh toán, trang tổng quan hay danh mục dịch vụ. Phạm vi hai môn và các giả định đang được ghi tại [docs/course-scope.md](docs/course-scope.md).
+Repository có trang chủ web và API danh mục dịch vụ mẫu làm feature đầu tiên. Đây chưa phải tuyên bố đáp ứng rubric; đăng nhập, đặt lịch, thanh toán và trang tổng quan chưa nằm trong phạm vi hiện tại. Phạm vi hai môn và các giả định đang được ghi tại [docs/course-scope.md](docs/course-scope.md).
 
 ## Runtime và cài đặt
 
 - Node.js `24.15.0` (dòng Node 24 LTS; xem `.nvmrc`).
 - npm `11.12.1` (được ghi trong `packageManager`).
-- MongoDB là tùy chọn ở nền ban đầu; cần khi bắt đầu lưu dữ liệu thật.
+- MongoDB là tùy chọn; danh mục hiện dùng dữ liệu mẫu do API cung cấp, chưa lưu dữ liệu dịch vụ vào database.
 
 Trên Windows PowerShell:
 
@@ -50,7 +50,7 @@ npm run dev:web
 npm run dev:mobile
 ```
 
-- API mặc định: `http://localhost:4000`; endpoint kiểm tra: `GET /api/health`.
+- API mặc định: `http://localhost:4000`; endpoint kiểm tra `GET /api/health` và danh mục `GET /api/services`.
 - Web mặc định: `http://localhost:5173` và đọc `VITE_API_BASE_URL`.
 - Ứng dụng di động đọc `EXPO_PUBLIC_API_BASE_URL`.
 

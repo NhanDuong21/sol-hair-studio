@@ -1,16 +1,16 @@
 # Kiến trúc và luồng chạy
 
-Tài liệu này mô tả cấu trúc đang có trong repository sau lượt refactor. Phạm vi hiện tại là màn hình kiểm tra API, chưa có chức năng sản phẩm salon.
+Tài liệu này mô tả cấu trúc đang có trong repository. Phạm vi sản phẩm hiện tại gồm trang chủ web và API danh mục dịch vụ với dữ liệu mẫu do máy chủ cung cấp. Đặt lịch, đăng nhập, thanh toán, trang tổng quan và feature danh mục trên mobile chưa được triển khai.
 
 ## A. Nhìn tổng thể
 
 Repository là một monorepo npm workspaces gồm ba ứng dụng:
 
-- `apps/api` là API Node.js/Express. API cung cấp `GET /api/health` và có thể kết nối MongoDB qua Mongoose nếu cấu hình `MONGODB_URI`.
-- `apps/web` là ứng dụng React/Vite/Tailwind chạy trên trình duyệt.
+- `apps/api` là API Node.js/Express. API cung cấp `GET /api/health`, `GET /api/services` và có thể kết nối MongoDB qua Mongoose nếu cấu hình `MONGODB_URI`.
+- `apps/web` là ứng dụng React/Vite/Tailwind chạy trên trình duyệt, có trang chủ và lấy thẻ dịch vụ từ API.
 - `apps/mobile` là ứng dụng React Native/Expo dùng cho Android và iOS.
 
-Web và mobile gọi cùng hợp đồng API nhưng đọc base URL riêng từ biến môi trường. Mỗi app giữ HTTP helper và giao diện riêng để không kéo code DOM vào React Native hoặc code backend vào bundle client. Cây request health được tổ chức theo chức năng; trong feature, page/screen ghép giao diện, hook giữ trạng thái và vòng đời, API của feature chọn endpoint. Các helper cấp app nằm ngoài feature.
+Web và mobile gọi cùng hợp đồng API nhưng đọc base URL riêng từ biến môi trường. Mỗi app giữ HTTP helper và giao diện riêng để không kéo code DOM vào React Native hoặc code backend vào bundle client. Web hiện có hai luồng theo feature: trang chủ tải danh mục qua API; trang kiểm tra kết nối vẫn ở `/health`. Trong feature, page/screen ghép giao diện, hook giữ trạng thái và vòng đời, API của feature chọn endpoint. Các helper cấp app nằm ngoài feature.
 
 Root giữ `package.json` và `package-lock.json` duy nhất để cài cả ba workspace.
 
@@ -31,10 +31,15 @@ apps/api/
 │   │   ├── not-found.js             Trả JSON 404 cho route không tồn tại
 │   │   └── middlewares.test.js      Kiểm tra phản hồi lỗi 400/404/500
 │   ├── modules/
-│   │   └── health/
-│   │       ├── health.routes.js     Khai báo GET /health dưới prefix /api
-│   │       ├── health.controller.js Tạo phản hồi health và trạng thái database
-│   │       └── health.test.js       Kiểm tra hợp đồng GET /api/health
+│   │   ├── health/
+│   │   │   ├── health.routes.js     Khai báo GET /health dưới prefix /api
+│   │   │   ├── health.controller.js Tạo phản hồi health và trạng thái database
+│   │   │   └── health.test.js       Kiểm tra hợp đồng GET /api/health
+│   │   └── services/
+│   │       ├── services.routes.js   Khai báo GET /services dưới prefix /api
+│   │       ├── services.controller.js Trả danh sách dịch vụ theo hợp đồng chung
+│   │       ├── services.data.js     Nguồn dữ liệu mẫu phía máy chủ
+│   │       └── services.test.js     Kiểm tra hợp đồng GET /api/services
 │   ├── routes/
 │   │   └── index.js                 Gom router module dưới prefix /api
 │   ├── app.js                       Tạo Express app và ghép middleware/router
@@ -49,8 +54,16 @@ apps/api/
 ```text
 apps/web/src/
 ├── config/env.js                    Đọc và chuẩn hóa VITE_API_BASE_URL
-├── routes/AppRoutes.jsx             Ánh xạ route / tới HealthPage
-├── layouts/MainLayout.jsx           Giữ nền và khung trang hiện tại
+├── routes/AppRoutes.jsx             Ánh xạ / tới HomePage và /health tới HealthPage
+├── layouts/MainLayout.jsx           Giữ nền, kiểu chữ và khung trang
+├── features/home/
+│   ├── pages/HomePage.jsx            Ghép các phần của trang chủ theo prototype
+│   └── components/                   Header, phần dịch vụ, trải nghiệm, bài viết, footer
+├── features/services/
+│   ├── components/ServiceCard.jsx    Hiển thị một dịch vụ lấy từ API
+│   ├── hooks/useServices.js          Tải, thử lại và cleanup request dịch vụ
+│   ├── api/services.api.js           Gọi GET /api/services
+│   └── tests/services.api.test.js    Kiểm tra endpoint do feature chọn
 ├── features/health/
 │   ├── pages/HealthPage.jsx          Ghép nội dung màn hình và trạng thái health
 │   ├── components/HealthStatusCard.jsx  Hiển thị trạng thái và nút thử lại
@@ -93,15 +106,21 @@ apps/mobile/
 
 ## C. Thứ tự đọc code
 
-- API: `apps/api/src/server.js` → `apps/api/src/app.js` → `apps/api/src/routes/index.js` → `apps/api/src/modules/health/health.routes.js` → `health.controller.js`.
-- Web: `apps/web/src/main.jsx` → `App.jsx` → `routes/AppRoutes.jsx` → `layouts/MainLayout.jsx` → `features/health/pages/HealthPage.jsx` → `hooks/useHealth.js` → `api/health.api.js` → `lib/http.js`.
+- API: `apps/api/src/server.js` → `apps/api/src/app.js` → `apps/api/src/routes/index.js` → `apps/api/src/modules/services/services.routes.js` → `services.controller.js` → `services.data.js`.
+- Web: `apps/web/src/main.jsx` → `App.jsx` → `routes/AppRoutes.jsx` → `features/home/pages/HomePage.jsx` → `components/ServicePreview.jsx` → `features/services/hooks/useServices.js` → `api/services.api.js` → `lib/http.js`.
 - Mobile: `apps/mobile/index.js` → `App.jsx` → `src/navigation/RootNavigator.jsx` → `features/health/screens/HealthScreen.jsx` → `hooks/useHealth.js` → `api/health.api.js` → `lib/http.js`.
 
-## D. Luồng chạy health
+## D. Luồng chạy trang chủ và danh mục dịch vụ
+
+Web vào `main.jsx`, nơi tạo React root và render `App` trong `StrictMode`. `App.jsx` đặt một `BrowserRouter`; `AppRoutes` chọn `HomePage` tại `/` và vẫn giữ `HealthPage` tại `/health`. `HomePage` ghép header, phần mở đầu, danh mục, trải nghiệm, bài viết mẫu, lời mời liên hệ và footer. `ServicePreview` gọi `useServices`; hook quản lý trạng thái `loading`, `success` (gồm cả danh sách rỗng), `error`, thử lại và hủy request khi rời trang.
+
+`services.api.js` gọi `GET /api/services` qua HTTP helper. Máy chủ trả `{ data: [...] }` từ `services.data.js`; mỗi mục có `id`, `slug`, `name`, `description`, `category`, `durationMinutes` và `priceVnd`. Dữ liệu ảnh là phần trình bày của web, được ghép theo `slug` trong `ServiceCard`; ảnh không nằm trong hợp đồng API dùng chung.
+
+## E. Luồng chạy health
 
 ### Mở màn hình
 
-Web vào `main.jsx`, nơi tạo React root và render `App` trong `StrictMode`. `App.jsx` đặt một `BrowserRouter`; `AppRoutes` chọn route `/`, rồi `MainLayout` giữ nền và khung trang. `HealthPage` gọi `useHealth`. Hook khởi tạo state `loading` và chạy `loadHealth` trong `useEffect`.
+Web vào `main.jsx`, nơi tạo React root và render `App` trong `StrictMode`. `App.jsx` đặt một `BrowserRouter`; `AppRoutes` chọn route `/health`, rồi `MainLayout` giữ nền và khung trang. `HealthPage` gọi `useHealth`. Hook khởi tạo state `loading` và chạy `loadHealth` trong `useEffect`.
 
 Mobile vào `index.js`, Expo đăng ký `App.jsx`. `App` đặt một `SafeAreaProvider` và một `NavigationContainer`; `RootNavigator` đăng ký screen `Health` với header tắt. `HealthScreen` dùng `SafeAreaView` theo bốn cạnh và gọi `useHealth` để bắt đầu cùng luồng tải.
 
@@ -127,18 +146,18 @@ Nếu response có HTTP status ngoài khoảng thành công, `requestJson` ném 
 
 Parser JSON không hợp lệ được `errorHandler` nhận diện và trả 400 `INVALID_JSON`. Endpoint không tồn tại đi qua `notFound` trả 404 `NOT_FOUND`. Lỗi khác được log thông tin an toàn rồi trả 500 `INTERNAL_ERROR`; nếu header đã gửi, middleware chuyển lỗi cho Express qua `next(error)`.
 
-## E. Hướng dẫn thêm tính năng sau này
+## F. Hướng dẫn thêm tính năng sau này
 
-Ví dụ dưới đây chỉ chỉ đường đặt code cho “danh mục dịch vụ”; đây không phải xác nhận scope với giảng viên và không phải hạng mục được triển khai trong lượt này.
+Ví dụ dưới đây mô tả nơi tiếp tục mở rộng feature danh mục; các mục này chưa nằm trong phạm vi hiện tại.
 
-- API: tạo `apps/api/src/modules/services/` với route, controller, service, model và test tương ứng khi từng phần có trách nhiệm thật. Đăng ký router tại `apps/api/src/routes/index.js`.
-- Web: đặt page, component, hook, API và test trong `apps/web/src/features/services/`. Thêm route cần thiết tại `routes/AppRoutes.jsx`.
+- API: mở rộng `apps/api/src/modules/services/` khi cần lưu trữ bền vững hoặc quy tắc nghiệp vụ; đăng ký router tại `apps/api/src/routes/index.js`.
+- Web: trang chủ hiện dùng dịch vụ mẫu từ API. Trang danh mục đầy đủ có thể đặt page, component, hook, API và test trong `apps/web/src/features/services/` khi được giao.
 - Mobile: đặt screen, component, hook, API và test trong `apps/mobile/src/features/services/`. Đăng ký screen trong `src/navigation/RootNavigator.jsx`.
 - Cả hai client gọi cùng hợp đồng API; mỗi client tiếp tục dùng base URL riêng theo môi trường. Không chuyển component DOM sang mobile.
 
 Không cần tạo đủ mọi tệp trước khi tính năng cần chúng.
 
-## F. Quy tắc chọn vị trí code
+## G. Quy tắc chọn vị trí code
 
 - **Page/screen** ghép nội dung của một màn hình. **Component** trình bày một phần giao diện qua props; component không tự gọi endpoint.
 - **Hook** giữ state, vòng đời và thao tác của feature. **Hàm API của feature** biết endpoint nào cần gọi và chuyển tham số sang HTTP helper.
@@ -147,7 +166,7 @@ Không cần tạo đủ mọi tệp trước khi tính năng cần chúng.
 - Chỉ đưa component lên thư mục dùng chung khi có ít nhất hai feature thật sự sử dụng cùng component. Web và native không dùng chung UI.
 - Tạo các tệp theo nhu cầu feature; không thêm service/model giả, barrel export, helper tổng quát hoặc tầng bổ sung chỉ để hoàn tất một cây thư mục.
 
-## G. Đường dẫn cũ → mới
+## H. Đường dẫn cũ → mới
 
 | Đường dẫn trước refactor | Vị trí sau refactor |
 | --- | --- |
