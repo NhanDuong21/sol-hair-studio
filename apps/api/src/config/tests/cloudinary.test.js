@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { cloudinaryImageUrl } from './cloudinary.js'
+import { cloudinaryImageUrl } from '../cloudinary.js'
 
 describe('cloudinaryImageUrl', () => {
   it('tạo URL phân phối ảnh Cloudinary với tối ưu định dạng và chất lượng', () => {

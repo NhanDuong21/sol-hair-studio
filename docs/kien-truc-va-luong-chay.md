@@ -30,16 +30,20 @@ apps/api/
 │   ├── config/
 │   │   ├── env.js                   Đọc, chuẩn hóa và kiểm tra biến môi trường
 │   │   ├── cloudinary.js            Tạo URL phân phối ảnh đã lưu trên Cloudinary
+│   │   ├── tests/
+│   │   │   └── cloudinary.test.js    Kiểm tra URL phân phối ảnh
 │   │   └── database.js              Kết nối, ngắt kết nối và đọc trạng thái MongoDB
 │   ├── middlewares/
 │   │   ├── error-handler.js         Chuẩn hóa lỗi 400/500 và chuyển tiếp khi headers đã gửi
 │   │   ├── not-found.js             Trả JSON 404 cho route không tồn tại
-│   │   └── middlewares.test.js      Kiểm tra phản hồi lỗi 400/404/500
+│   │   └── tests/
+│   │       └── middlewares.test.js  Kiểm tra phản hồi lỗi 400/404/500
 │   ├── modules/
 │   │   ├── health/
 │   │   │   ├── health.routes.js     Khai báo GET /health dưới prefix /api
 │   │   │   ├── health.controller.js Tạo phản hồi health và trạng thái database
-│   │   │   └── health.test.js       Kiểm tra hợp đồng GET /api/health
+│   │   │   └── tests/
+│   │   │       └── health.test.js   Kiểm tra hợp đồng GET /api/health
 │   │   └── services/
 │   │       ├── services.routes.js   Khai báo GET /services dưới prefix /api
 │   │       ├── services.controller.js Kiểm tra trạng thái DB và trả hợp đồng API
@@ -183,7 +187,7 @@ Không cần tạo đủ mọi tệp trước khi tính năng cần chúng.
 | `apps/api/src/database.js` | `apps/api/src/config/database.js` |
 | Handler health trong `apps/api/src/app.js` | `modules/health/health.routes.js` và `health.controller.js` |
 | Handler 404/500 trong `apps/api/src/app.js` | `middlewares/not-found.js` và `middlewares/error-handler.js` |
-| `apps/api/src/app.test.js` | `modules/health/health.test.js` và `middlewares/middlewares.test.js` |
+| `apps/api/src/app.test.js` | `modules/health/tests/health.test.js` và `middlewares/tests/middlewares.test.js` |
 | `apps/web/src/App.jsx` | `routes/AppRoutes.jsx`, `layouts/MainLayout.jsx`, `features/health/pages/HealthPage.jsx`, `components/HealthStatusCard.jsx`, `hooks/useHealth.js` |
 | `apps/web/src/api.js` | `features/health/api/health.api.js`, `lib/http.js`, `lib/latest-request.js`, `config/env.js` |
 | `apps/web/src/api.test.js` | `features/health/tests/health.api.test.js` và `lib/tests/` |
