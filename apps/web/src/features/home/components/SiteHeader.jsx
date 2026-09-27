@@ -7,8 +7,13 @@ const links = [
 function Brand() {
   return (
     <a href="#home" className="flex items-center gap-3" aria-label="Sol Hair Studio — Trang chủ">
-      <span className="grid h-11 w-11 place-items-center rounded-full border border-terracotta/20 bg-white/70 font-display text-2xl italic text-terracotta">
-        S
+      <span className="h-11 w-11 shrink-0 overflow-hidden rounded-full border border-terracotta/20 bg-canvas">
+        <img
+          src="/logo/sol-logo.png"
+          alt=""
+          className="h-full w-full rounded-full object-cover"
+          decoding="async"
+        />
       </span>
       <span className="leading-none">
         <span className="block font-display text-[1.2rem] font-semibold tracking-[0.2em] text-ink sm:text-[1.35rem]">
