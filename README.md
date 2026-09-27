@@ -48,7 +48,7 @@ npm run seed:services --workspace @sol-hair/api
 
 Script giữ nguyên ảnh Cloudinary đã tồn tại và chỉ tạo các ảnh còn thiếu. API key và secret chỉ dùng ở server/script tải ảnh; không đưa chúng vào web, mobile, Sheet hoặc Git.
 
-`CORS_ORIGIN` nhận `*` hoặc danh sách nguồn phân cách bằng dấu phẩy. Khi chạy web mặc định, đặt `http://localhost:5173`.
+`CORS_ORIGIN` nhận `*` hoặc danh sách nguồn phân cách bằng dấu phẩy. Vite mặc định dùng `http://localhost:5173` và có thể chuyển sang `http://localhost:5174` nếu cổng 5173 đang bận; cấu hình mẫu cho phép cả hai.
 
 ## Chạy từng phần
 
