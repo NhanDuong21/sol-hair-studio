@@ -15,7 +15,7 @@ Repository có trang chủ web và API danh mục dịch vụ dùng chung. Mongo
 - Node.js `24.15.0` (dòng Node 24 LTS; xem `.nvmrc`).
 - npm `11.12.1` (được ghi trong `packageManager`).
 - MongoDB lưu danh mục dịch vụ; API vẫn phục vụ health check khi chưa cấu hình database.
-- Ảnh dịch vụ được phân phối trực tiếp từ Cloudinary qua trường `imageUrl`; ảnh trang chủ vẫn nằm trong `apps/web/public/images/`.
+- Ảnh dịch vụ được phân phối trực tiếp từ Cloudinary qua trường `imageUrl`; ảnh nội dung trang chủ nằm trong `apps/web/public/images/`, video hero được phục vụ trực tiếp từ `apps/web/public/video/`.
 
 Trên Windows PowerShell:
 
