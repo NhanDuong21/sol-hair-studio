@@ -8,5 +8,5 @@ export function cloudinaryImageUrl(cloudName, publicId) {
     .map((part) => encodeURIComponent(part))
     .join('/')
 
-  return `https://res.cloudinary.com/${encodeURIComponent(cloudName)}/image/upload/${normalizedPublicId}`
+  return `https://res.cloudinary.com/${encodeURIComponent(cloudName)}/image/upload/f_auto,q_90,w_1200,c_limit/${normalizedPublicId}`
 }
