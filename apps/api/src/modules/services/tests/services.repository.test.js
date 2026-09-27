@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-vi.mock('./services.model.js', () => ({
+vi.mock('../services.model.js', () => ({
   ServiceModel: { find: vi.fn() },
 }))
 
-import { ServiceModel } from './services.model.js'
-import { findActiveServices } from './services.repository.js'
+import { ServiceModel } from '../services.model.js'
+import { findActiveServices } from '../services.repository.js'
 
 describe('findActiveServices', () => {
   beforeEach(() => {

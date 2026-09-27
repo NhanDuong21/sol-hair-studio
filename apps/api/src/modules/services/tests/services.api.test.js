@@ -1,16 +1,16 @@
 import request from 'supertest'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-vi.mock('../../config/database.js', () => ({
+vi.mock('../../../config/database.js', () => ({
   getDatabaseStatus: vi.fn(),
 }))
-vi.mock('./services.repository.js', () => ({
+vi.mock('../services.repository.js', () => ({
   findActiveServices: vi.fn(),
 }))
 
-import { getDatabaseStatus } from '../../config/database.js'
-import { findActiveServices } from './services.repository.js'
-import { app } from '../../app.js'
+import { getDatabaseStatus } from '../../../config/database.js'
+import { findActiveServices } from '../services.repository.js'
+import { app } from '../../../app.js'
 
 describe('GET /api/services', () => {
   beforeEach(() => {

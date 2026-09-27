@@ -1,12 +1,12 @@
 import 'dotenv/config'
-import { config } from '../../config/env.js'
-import { cloudinaryImageUrl } from '../../config/cloudinary.js'
+import { config } from '../src/config/env.js'
+import { cloudinaryImageUrl } from '../src/config/cloudinary.js'
 import {
   connectToDatabase,
   disconnectFromDatabase,
-} from '../../config/database.js'
-import { services } from './services.data.js'
-import { ServiceModel } from './services.model.js'
+} from '../src/config/database.js'
+import { services } from './data/services.js'
+import { ServiceModel } from '../src/modules/services/services.model.js'
 
 if (!config.mongoUri) {
   throw new Error('Cần cấu hình MONGODB_URI trong apps/api/.env để nạp dịch vụ.')

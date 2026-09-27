@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { ServiceModel } from './services.model.js'
+import { ServiceModel } from '../services.model.js'
 
 const validService = {
   id: 'service-cut-style',

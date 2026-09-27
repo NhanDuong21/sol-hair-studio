@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
-    "upload:service-images": "node src/modules/services/upload-service-images.js",
-    "seed:services": "node src/modules/services/seed-services.js",
+    "upload:service-images": "node scripts/upload-service-images.js",
+    "seed:services": "node scripts/seed-services.js",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",

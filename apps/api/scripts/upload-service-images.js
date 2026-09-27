@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import { resolve } from 'node:path'
 import { v2 as cloudinary } from 'cloudinary'
-import { services } from './services.data.js'
+import { services } from './data/services.js'
 
 const requiredConfig = {
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME?.trim(),

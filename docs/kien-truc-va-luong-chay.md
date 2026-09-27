@@ -21,7 +21,11 @@ Root giữ `package.json` và `package-lock.json` duy nhất để cài cả ba 
 ```text
 apps/api/
 ├── scripts/
-│   └── check-source.js              Quét đệ quy và kiểm tra cú pháp source API
+│   ├── check-source.js              Quét đệ quy và kiểm tra cú pháp source API
+│   ├── data/
+│   │   └── services.js              Dữ liệu mẫu và public ID ảnh dùng cho seed
+│   ├── seed-services.js             Nạp/cập nhật dịch vụ và URL ảnh vào MongoDB
+│   └── upload-service-images.js     Tải ảnh mẫu lên Cloudinary một lần
 ├── src/
 │   ├── config/
 │   │   ├── env.js                   Đọc, chuẩn hóa và kiểm tra biến môi trường
@@ -41,10 +45,10 @@ apps/api/
 │   │       ├── services.controller.js Kiểm tra trạng thái DB và trả hợp đồng API
 │   │       ├── services.model.js    Lược đồ dịch vụ MongoDB
 │   │       ├── services.repository.js Truy vấn dịch vụ đang hoạt động
-│   │       ├── services.data.js     Dữ liệu ban đầu và public ID ảnh
-│   │       ├── seed-services.js     Nạp/cập nhật dịch vụ và URL ảnh vào MongoDB
-│   │       ├── upload-service-images.js Tải ảnh mẫu lên Cloudinary một lần
-│   │       └── *.test.js            Kiểm tra model, truy vấn và hợp đồng endpoint
+│   │       └── tests/
+│   │           ├── services.api.test.js Kiểm tra hợp đồng endpoint
+│   │           ├── services.model.test.js Kiểm tra lược đồ dịch vụ
+│   │           └── services.repository.test.js Kiểm tra truy vấn dịch vụ
 │   ├── routes/
 │   │   └── index.js                 Gom router module dưới prefix /api
 │   ├── app.js                       Tạo Express app và ghép middleware/router
