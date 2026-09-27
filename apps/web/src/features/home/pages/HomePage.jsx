@@ -3,6 +3,7 @@ import ExperienceSection from '../components/ExperienceSection.jsx'
 import ServicePreview from '../components/ServicePreview.jsx'
 import SiteFooter from '../components/SiteFooter.jsx'
 import SiteHeader from '../components/SiteHeader.jsx'
+import RevealOnScroll from '../components/RevealOnScroll.jsx'
 
 export default function HomePage() {
   return (
@@ -14,7 +15,7 @@ export default function HomePage() {
           aria-labelledby="home-title"
           className="mx-auto grid max-w-[1400px] items-center gap-10 px-5 pb-16 pt-10 sm:px-8 sm:pb-20 sm:pt-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12 lg:px-12 lg:pb-24 lg:pt-20"
         >
-          <div>
+          <RevealOnScroll>
             <p className="mb-4 text-[0.68rem] font-semibold tracking-[0.25em] text-terracotta uppercase sm:mb-5">
               Sol Hair Studio
             </p>
@@ -45,9 +46,9 @@ export default function HomePage() {
               <span className="mr-3 font-display text-lg italic text-terracotta">01</span>
               Chăm chút vừa vặn với mái tóc và nhịp sống của bạn.
             </div>
-          </div>
+          </RevealOnScroll>
 
-          <div className="relative">
+          <RevealOnScroll className="relative" delay={100}>
             <div className="overflow-hidden rounded-[28px] bg-soft-surface shadow-[0_24px_70px_rgba(71,51,39,0.12)] sm:rounded-[36px]">
               <img
                 src="/images/hero-model.png"
@@ -64,7 +65,7 @@ export default function HomePage() {
                 Chạm vào phiên bản tự tin hơn.
               </p>
             </div>
-          </div>
+          </RevealOnScroll>
         </section>
 
         <ServicePreview />
@@ -72,7 +73,7 @@ export default function HomePage() {
         <EditorialSection />
 
         <section className="px-5 py-14 sm:px-8 sm:py-20 lg:px-12">
-          <div className="mx-auto flex max-w-[1310px] flex-col justify-between gap-7 rounded-[28px] bg-terracotta px-6 py-9 text-white shadow-[0_18px_55px_rgba(91,47,37,0.17)] sm:rounded-[34px] sm:px-10 sm:py-12 lg:flex-row lg:items-center lg:px-14 lg:py-14">
+          <RevealOnScroll className="mx-auto flex max-w-[1310px] flex-col justify-between gap-7 rounded-[28px] bg-terracotta px-6 py-9 text-white shadow-[0_18px_55px_rgba(91,47,37,0.17)] sm:rounded-[34px] sm:px-10 sm:py-12 lg:flex-row lg:items-center lg:px-14 lg:py-14">
             <div>
               <p className="text-[0.62rem] font-semibold tracking-[0.22em] text-white/75 uppercase">
                 Your time at Sol
@@ -90,7 +91,7 @@ export default function HomePage() {
             >
               Đặt lịch tại Sol <span aria-hidden="true">→</span>
             </a>
-          </div>
+          </RevealOnScroll>
         </section>
       </main>
       <SiteFooter />

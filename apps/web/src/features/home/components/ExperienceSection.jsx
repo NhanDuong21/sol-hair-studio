@@ -1,3 +1,5 @@
+import RevealOnScroll from './RevealOnScroll.jsx'
+
 const studioPromises = [
   'Stylist lắng nghe mong muốn của bạn',
   'Tư vấn dựa trên chất tóc thực tế',
@@ -12,29 +14,29 @@ export default function ExperienceSection() {
       className="scroll-mt-24 py-16 sm:py-20 lg:py-28"
     >
       <div className="mx-auto grid max-w-[1400px] items-center gap-12 px-5 sm:px-8 lg:grid-cols-2 lg:gap-20 lg:px-12">
-        <div className="relative mx-auto w-full max-w-[620px]">
-          <div className="overflow-hidden rounded-[34%_34%_24px_24px] bg-soft-surface">
+        <RevealOnScroll className="relative mx-auto w-full max-w-[620px]">
+          <div className="group overflow-hidden rounded-[34%_34%_24px_24px] bg-soft-surface">
             <img
               src="/images/experience-spa.jpg"
               alt="Khoảnh khắc thư giãn trong liệu trình chăm sóc tóc"
-              className="aspect-[0.92] w-full object-cover"
+              className="aspect-[0.92] w-full object-cover transition duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
               loading="lazy"
             />
           </div>
-          <div className="absolute -bottom-8 right-0 w-[43%] overflow-hidden rounded-[22px] border-[7px] border-canvas shadow-xl sm:-right-5">
+          <div className="group absolute -bottom-8 right-0 w-[43%] overflow-hidden rounded-[22px] border-[7px] border-canvas shadow-xl sm:-right-5">
             <img
               src="/images/experience-cut.jpg"
               alt="Stylist chăm chút từng đường cắt"
-              className="aspect-[0.9] w-full object-cover"
+              className="aspect-[0.9] w-full object-cover transition duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
               loading="lazy"
             />
           </div>
           <p className="absolute bottom-3 left-3 rounded-full bg-white/95 px-4 py-2 text-xs text-ink shadow-sm sm:bottom-5 sm:left-5">
             Một nghi thức nhỏ, dành cho bạn
           </p>
-        </div>
+        </RevealOnScroll>
 
-        <div className="pt-5 lg:pt-0">
+        <RevealOnScroll className="pt-5 lg:pt-0" delay={80}>
           <p className="mb-3 text-[0.68rem] font-semibold tracking-[0.24em] text-terracotta uppercase">
             Trải nghiệm Sol
           </p>
@@ -61,7 +63,7 @@ export default function ExperienceSection() {
           >
             Khám phá Sol <span aria-hidden="true">→</span>
           </a>
-        </div>
+        </RevealOnScroll>
       </div>
     </section>
   )

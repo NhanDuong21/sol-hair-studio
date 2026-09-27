@@ -1,5 +1,6 @@
 import { useServices } from '../../services/hooks/useServices.js'
 import ServiceCard from '../../services/components/ServiceCard.jsx'
+import RevealOnScroll from './RevealOnScroll.jsx'
 
 function LoadingCards() {
   return (
@@ -30,7 +31,7 @@ export default function ServicePreview() {
       className="scroll-mt-24 bg-soft-surface/75 py-16 sm:py-20 lg:py-24"
     >
       <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12">
-        <div className="mb-8 flex items-end justify-between gap-6 sm:mb-10">
+        <RevealOnScroll className="mb-8 flex items-end justify-between gap-6 sm:mb-10">
           <div>
             <p className="mb-3 text-[0.68rem] font-semibold tracking-[0.24em] text-terracotta uppercase">
               Dịch vụ tại Sol
@@ -51,7 +52,7 @@ export default function ServicePreview() {
           >
             Xem tất cả dịch vụ <span aria-hidden="true">→</span>
           </a>
-        </div>
+        </RevealOnScroll>
 
         <div id="services-list" aria-live="polite" aria-busy={state.kind === 'loading'}>
           {state.kind === 'loading' && <LoadingCards />}
@@ -75,8 +76,10 @@ export default function ServicePreview() {
           )}
           {state.kind === 'success' && state.data.length > 0 && (
             <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-              {state.data.map((service) => (
-                <ServiceCard key={service.id} service={service} />
+              {state.data.map((service, index) => (
+                <RevealOnScroll key={service.id} delay={index * 80}>
+                  <ServiceCard service={service} />
+                </RevealOnScroll>
               ))}
             </div>
           )}

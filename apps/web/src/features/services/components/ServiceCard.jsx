@@ -15,7 +15,7 @@ export default function ServiceCard({ service }) {
         <img
           src={serviceImages[service.slug] ?? '/images/service-cut-style.png'}
           alt={service.name}
-          className="aspect-[1.55] w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+          className="aspect-[1.55] w-full object-cover transition duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
           loading="lazy"
         />
       </div>
