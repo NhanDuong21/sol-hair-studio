@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
+import HomePage from '../features/home/pages/HomePage.jsx'
 import HealthPage from '../features/health/pages/HealthPage.jsx'
 import MainLayout from '../layouts/MainLayout.jsx'
 
@@ -6,7 +7,8 @@ export default function AppRoutes() {
   return (
     <Routes>
       <Route element={<MainLayout />}>
-        <Route path="/" element={<HealthPage />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/health" element={<HealthPage />} />
       </Route>
     </Routes>
   )

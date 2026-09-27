@@ -1,0 +1,29 @@
+export const services = Object.freeze([
+  Object.freeze({
+    id: 'service-cut-style',
+    slug: 'cat-va-tao-kieu',
+    name: 'Cắt & tạo kiểu',
+    description: 'Tạo phom tóc phù hợp với gương mặt và phong cách riêng của bạn.',
+    category: 'Tạo kiểu',
+    durationMinutes: Object.freeze({ min: 45, max: 60 }),
+    priceVnd: 450_000,
+  }),
+  Object.freeze({
+    id: 'service-fashion-color',
+    slug: 'nhuom-thoi-trang',
+    name: 'Nhuộm thời trang',
+    description: 'Tư vấn sắc độ hài hòa với làn da và chất tóc.',
+    category: 'Nhuộm',
+    durationMinutes: Object.freeze({ min: 90, max: 120 }),
+    priceVnd: 1_200_000,
+  }),
+  Object.freeze({
+    id: 'service-hair-spa',
+    slug: 'hair-spa-phuc-hoi',
+    name: 'Hair spa phục hồi',
+    description: 'Thư giãn và nuôi dưỡng mái tóc khô xơ, thiếu sức sống.',
+    category: 'Chăm sóc',
+    durationMinutes: Object.freeze({ min: 60, max: 75 }),
+    priceVnd: 600_000,
+  }),
+])
