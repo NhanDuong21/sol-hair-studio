@@ -21,7 +21,7 @@ describe('serviceSchema', () => {
   it('từ chối dịch vụ thiếu URL Cloudinary', async () => {
     const service = new ServiceModel({
       ...validService,
-      imageUrl: '/images/service-cut-style.png',
+      imageUrl: '/legacy-local-image.png',
     })
 
     await expect(service.validate()).rejects.toHaveProperty('errors.imageUrl')

@@ -24,8 +24,7 @@ apps/api/
 │   ├── check-source.js              Quét đệ quy và kiểm tra cú pháp source API
 │   ├── data/
 │   │   └── services.js              Dữ liệu mẫu và public ID ảnh dùng cho seed
-│   ├── seed-services.js             Nạp/cập nhật dịch vụ và URL ảnh vào MongoDB
-│   └── upload-service-images.js     Tải ảnh mẫu lên Cloudinary một lần
+│   └── seed-services.js             Nạp/cập nhật dịch vụ và URL ảnh vào MongoDB
 ├── src/
 │   ├── config/
 │   │   ├── env.js                   Đọc, chuẩn hóa và kiểm tra biến môi trường

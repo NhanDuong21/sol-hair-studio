@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
-    "upload:service-images": "node scripts/upload-service-images.js",
     "seed:services": "node scripts/seed-services.js",
     "lint": "eslint .",
     "test": "vitest run",

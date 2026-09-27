@@ -15,7 +15,7 @@ Repository có trang chủ web và API danh mục dịch vụ dùng chung. Mongo
 - Node.js `24.15.0` (dòng Node 24 LTS; xem `.nvmrc`).
 - npm `11.12.1` (được ghi trong `packageManager`).
 - MongoDB lưu danh mục dịch vụ; API vẫn phục vụ health check khi chưa cấu hình database.
-- Ảnh dịch vụ mẫu được tải lên Cloudinary từ các ảnh trong `apps/web/public/images/`.
+- Ảnh dịch vụ được phân phối trực tiếp từ Cloudinary qua trường `imageUrl`; ảnh trang chủ vẫn nằm trong `apps/web/public/images/`.
 
 Trên Windows PowerShell:
 
@@ -39,14 +39,11 @@ Copy-Item apps\mobile\.env.example apps\mobile\.env
 
 API vẫn khởi động và trả kết quả kiểm tra khi chưa có `MONGODB_URI`; trạng thái cơ sở dữ liệu khi đó là `not-configured`, còn `GET /api/services` trả `503`. Nếu dùng MongoDB cục bộ, URI khuyến nghị là `mongodb://127.0.0.1:27017/sol_hair_studio`. Nếu dùng MongoDB Atlas, đặt chuỗi kết nối trong `apps/api/.env`, không đưa tên đăng nhập hoặc mật khẩu vào Git.
 
-Để tải ảnh mẫu lên Cloudinary, điền `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY` và `CLOUDINARY_API_SECRET` trong file `apps/api/.env` cục bộ rồi chạy:
+Để nạp danh mục mẫu có URL Cloudinary vào MongoDB, điền `MONGODB_URI` và `CLOUDINARY_CLOUD_NAME` trong file `apps/api/.env` cục bộ rồi chạy:
 
 ```powershell
-npm run upload:service-images --workspace @sol-hair/api
 npm run seed:services --workspace @sol-hair/api
 ```
-
-Script giữ nguyên ảnh Cloudinary đã tồn tại và chỉ tạo các ảnh còn thiếu. API key và secret chỉ dùng ở server/script tải ảnh; không đưa chúng vào web, mobile, Sheet hoặc Git.
 
 `CORS_ORIGIN` nhận `*` hoặc danh sách nguồn phân cách bằng dấu phẩy. Vite mặc định dùng `http://localhost:5173` và có thể chuyển sang `http://localhost:5174` nếu cổng 5173 đang bận; cấu hình mẫu cho phép cả hai.
 
