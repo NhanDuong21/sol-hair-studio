@@ -2,9 +2,9 @@ import { describe, expect, it } from 'vitest'
 import { cloudinaryImageUrl } from '../cloudinary.js'
 
 describe('cloudinaryImageUrl', () => {
-  it('tạo URL phân phối ảnh Cloudinary với tối ưu định dạng và chất lượng', () => {
+  it('tạo URL phân phối ảnh Cloudinary gốc không qua biến đổi nén', () => {
     expect(cloudinaryImageUrl('sol-hair', 'services/hair spa')).toBe(
-      'https://res.cloudinary.com/sol-hair/image/upload/f_auto,q_auto/services/hair%20spa',
+      'https://res.cloudinary.com/sol-hair/image/upload/services/hair%20spa',
     )
   })
 
