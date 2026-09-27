@@ -13,7 +13,7 @@ export default function ServiceCard({ service }) {
     <article className="group rounded-[22px] border border-border/80 bg-white p-3 shadow-[0_10px_32px_rgba(71,51,39,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_38px_rgba(71,51,39,0.12)] sm:p-4">
       <div className="overflow-hidden rounded-[16px] bg-soft-surface">
         <img
-          src={serviceImages[service.slug] ?? '/images/service-cut-style.png'}
+          src={service.imageUrl ?? serviceImages[service.slug] ?? '/images/service-cut-style.png'}
           alt={service.name}
           className="aspect-[1.55] w-full object-cover transition duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
           loading="lazy"

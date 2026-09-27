@@ -6,12 +6,15 @@
   "scripts": {
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
+    "upload:service-images": "node src/modules/services/upload-service-images.js",
+    "seed:services": "node src/modules/services/seed-services.js",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
     "build": "node scripts/check-source.js"
   },
   "dependencies": {
+    "cloudinary": "^2.11.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
@@ -21,6 +24,7 @@
     "@eslint/js": "^10.0.1",
     "eslint": "^10.10.0",
     "globals": "^17.12.0",
+    "nodemon": "^3.1.14",
     "supertest": "^7.2.2",
     "vitest": "^5.0.1"
   }

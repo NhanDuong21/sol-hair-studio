@@ -1,12 +1,12 @@
 # Kiến trúc và luồng chạy
 
-Tài liệu này mô tả cấu trúc đang có trong repository. Phạm vi sản phẩm hiện tại gồm trang chủ web và API danh mục dịch vụ với dữ liệu mẫu do máy chủ cung cấp. Đặt lịch, đăng nhập, thanh toán, trang tổng quan và feature danh mục trên mobile chưa được triển khai.
+Tài liệu này mô tả cấu trúc đang có trong repository. Phạm vi sản phẩm hiện tại gồm trang chủ web và API danh mục dịch vụ đọc từ MongoDB, dùng URL ảnh Cloudinary. Đặt lịch, đăng nhập, thanh toán, trang tổng quan và feature danh mục trên mobile chưa được triển khai.
 
 ## A. Nhìn tổng thể
 
 Repository là một monorepo npm workspaces gồm ba ứng dụng:
 
-- `apps/api` là API Node.js/Express. API cung cấp `GET /api/health`, `GET /api/services` và có thể kết nối MongoDB qua Mongoose nếu cấu hình `MONGODB_URI`.
+- `apps/api` là API Node.js/Express. API cung cấp `GET /api/health`, `GET /api/services` và kết nối MongoDB qua Mongoose nếu cấu hình `MONGODB_URI`.
 - `apps/web` là ứng dụng React/Vite/Tailwind chạy trên trình duyệt, có trang chủ và lấy thẻ dịch vụ từ API.
 - `apps/mobile` là ứng dụng React Native/Expo dùng cho Android và iOS.
 
@@ -25,6 +25,7 @@ apps/api/
 ├── src/
 │   ├── config/
 │   │   ├── env.js                   Đọc, chuẩn hóa và kiểm tra biến môi trường
+│   │   ├── cloudinary.js            Tạo URL phân phối ảnh đã lưu trên Cloudinary
 │   │   └── database.js              Kết nối, ngắt kết nối và đọc trạng thái MongoDB
 │   ├── middlewares/
 │   │   ├── error-handler.js         Chuẩn hóa lỗi 400/500 và chuyển tiếp khi headers đã gửi
@@ -37,9 +38,13 @@ apps/api/
 │   │   │   └── health.test.js       Kiểm tra hợp đồng GET /api/health
 │   │   └── services/
 │   │       ├── services.routes.js   Khai báo GET /services dưới prefix /api
-│   │       ├── services.controller.js Trả danh sách dịch vụ theo hợp đồng chung
-│   │       ├── services.data.js     Nguồn dữ liệu mẫu phía máy chủ
-│   │       └── services.test.js     Kiểm tra hợp đồng GET /api/services
+│   │       ├── services.controller.js Kiểm tra trạng thái DB và trả hợp đồng API
+│   │       ├── services.model.js    Lược đồ dịch vụ MongoDB
+│   │       ├── services.repository.js Truy vấn dịch vụ đang hoạt động
+│   │       ├── services.data.js     Dữ liệu ban đầu và public ID ảnh
+│   │       ├── seed-services.js     Nạp/cập nhật dịch vụ và URL ảnh vào MongoDB
+│   │       ├── upload-service-images.js Tải ảnh mẫu lên Cloudinary một lần
+│   │       └── *.test.js            Kiểm tra model, truy vấn và hợp đồng endpoint
 │   ├── routes/
 │   │   └── index.js                 Gom router module dưới prefix /api
 │   ├── app.js                       Tạo Express app và ghép middleware/router
@@ -106,7 +111,7 @@ apps/mobile/
 
 ## C. Thứ tự đọc code
 
-- API: `apps/api/src/server.js` → `apps/api/src/app.js` → `apps/api/src/routes/index.js` → `apps/api/src/modules/services/services.routes.js` → `services.controller.js` → `services.data.js`.
+- API: `apps/api/src/server.js` → `apps/api/src/app.js` → `apps/api/src/routes/index.js` → `apps/api/src/modules/services/services.routes.js` → `services.controller.js` → `services.repository.js` → `services.model.js`.
 - Web: `apps/web/src/main.jsx` → `App.jsx` → `routes/AppRoutes.jsx` → `features/home/pages/HomePage.jsx` → `components/ServicePreview.jsx` → `features/services/hooks/useServices.js` → `api/services.api.js` → `lib/http.js`.
 - Mobile: `apps/mobile/index.js` → `App.jsx` → `src/navigation/RootNavigator.jsx` → `features/health/screens/HealthScreen.jsx` → `hooks/useHealth.js` → `api/health.api.js` → `lib/http.js`.
 
@@ -114,7 +119,7 @@ apps/mobile/
 
 Web vào `main.jsx`, nơi tạo React root và render `App` trong `StrictMode`. `App.jsx` đặt một `BrowserRouter`; `AppRoutes` chọn `HomePage` tại `/` và vẫn giữ `HealthPage` tại `/health`. `HomePage` ghép header, phần mở đầu, danh mục, trải nghiệm, bài viết mẫu, lời mời liên hệ và footer. `ServicePreview` gọi `useServices`; hook quản lý trạng thái `loading`, `success` (gồm cả danh sách rỗng), `error`, thử lại và hủy request khi rời trang.
 
-`services.api.js` gọi `GET /api/services` qua HTTP helper. Máy chủ trả `{ data: [...] }` từ `services.data.js`; mỗi mục có `id`, `slug`, `name`, `description`, `category`, `durationMinutes` và `priceVnd`. Dữ liệu ảnh là phần trình bày của web, được ghép theo `slug` trong `ServiceCard`; ảnh không nằm trong hợp đồng API dùng chung.
+`services.api.js` gọi `GET /api/services` qua HTTP helper. Khi MongoDB đã kết nối, máy chủ trả `{ data: [...] }` từ các dịch vụ đang hoạt động; mỗi mục có `id`, `slug`, `name`, `description`, `category`, `durationMinutes`, `priceVnd` và `imageUrl`. URL ảnh được tạo từ Cloudinary cloud name/public ID lúc nạp seed vào MongoDB; web dùng `imageUrl` trả về từ API. Khi database chưa được cấu hình hoặc kết nối, endpoint trả `503` với mã `DATABASE_UNAVAILABLE`, còn health check vẫn cho biết trạng thái database.
 
 ## E. Luồng chạy health
 
