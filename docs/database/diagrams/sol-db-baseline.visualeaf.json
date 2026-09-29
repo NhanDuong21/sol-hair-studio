@@ -1,0 +1,936 @@
+{
+  "id": "6abb0fb2aa4251f40450291e",
+  "connectionType": "SQL",
+  "name": "Sol Hair Studio — DB baseline v1 — PROPOSED",
+  "zoomScale": 1,
+  "panX": 255.43088044999104,
+  "panY": -103.42508383788345,
+  "collections": [
+    {
+      "id": "services",
+      "name": "services",
+      "database": "Sol Hair Studio - DB baseline v1 - PROPOSED",
+      "headerColor": "",
+      "position": {
+        "left": 917.8136743547179,
+        "top": 1271
+      },
+      "size": {
+        "width": 267,
+        "height": 341,
+        "minWidth": 267,
+        "maxHeight": 341
+      },
+      "fields": [
+        {
+          "name": "_id",
+          "type": "objectId",
+          "nullable": false,
+          "path": "_id",
+          "percentage": 100,
+          "icon": "fa-solid fa-key text-yellow-500"
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "nullable": false,
+          "path": "id",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "slug",
+          "type": "string",
+          "nullable": false,
+          "path": "slug",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "nullable": false,
+          "path": "name",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "category",
+          "type": "string",
+          "nullable": false,
+          "path": "category",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "durationMinutes",
+          "type": "object",
+          "nullable": false,
+          "path": "durationMinutes",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "durationMinutes.min",
+          "type": "number",
+          "nullable": false,
+          "path": "durationMinutes.min",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "durationMinutes.max",
+          "type": "number",
+          "nullable": false,
+          "path": "durationMinutes.max",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "bookingDurationMinutes",
+          "type": "number",
+          "nullable": false,
+          "path": "bookingDurationMinutes",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "priceVnd",
+          "type": "number",
+          "nullable": false,
+          "path": "priceVnd",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "imageUrl",
+          "type": "string",
+          "nullable": false,
+          "path": "imageUrl",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "isActive",
+          "type": "bool",
+          "nullable": false,
+          "path": "isActive",
+          "percentage": 100,
+          "icon": ""
+        }
+      ],
+      "foreignKeys": [],
+      "selected": false
+    },
+    {
+      "id": "staff_time_off",
+      "name": "staff_time_off",
+      "database": "Sol Hair Studio - DB baseline v1 - PROPOSED",
+      "headerColor": "",
+      "position": {
+        "left": 303.5636743547179,
+        "top": 291.5
+      },
+      "size": {
+        "width": 177,
+        "height": 180,
+        "minWidth": 177,
+        "maxHeight": 180
+      },
+      "fields": [
+        {
+          "name": "_id",
+          "type": "objectId",
+          "nullable": false,
+          "path": "_id",
+          "percentage": 100,
+          "icon": "fa-solid fa-key text-yellow-500"
+        },
+        {
+          "name": "staffId",
+          "type": "objectId",
+          "nullable": false,
+          "path": "staffId",
+          "percentage": 100,
+          "icon": "fa-solid fa-link text-blue-400"
+        },
+        {
+          "name": "startAt",
+          "type": "date",
+          "nullable": false,
+          "path": "startAt",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "endAt",
+          "type": "date",
+          "nullable": false,
+          "path": "endAt",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "reason",
+          "type": "string",
+          "nullable": true,
+          "path": "reason",
+          "percentage": 100,
+          "icon": ""
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "ref_staff_time_off_staffId",
+          "refTable": "staff",
+          "columnPairs": [
+            {
+              "localColumn": "staffId",
+              "refColumn": "_id"
+            }
+          ],
+          "onDelete": "RESTRICT",
+          "onUpdate": "RESTRICT"
+        }
+      ],
+      "selected": false
+    },
+    {
+      "id": "appointments",
+      "name": "appointments",
+      "database": "Sol Hair Studio - DB baseline v1 - PROPOSED",
+      "headerColor": "",
+      "position": {
+        "left": 744.2686001785755,
+        "top": 599.3389120832454
+      },
+      "size": {
+        "width": 286,
+        "height": 663,
+        "minWidth": 286,
+        "maxHeight": 663
+      },
+      "fields": [
+        {
+          "name": "_id",
+          "type": "objectId",
+          "nullable": false,
+          "path": "_id",
+          "percentage": 100,
+          "icon": "fa-solid fa-key text-yellow-500"
+        },
+        {
+          "name": "customerId",
+          "type": "objectId",
+          "nullable": false,
+          "path": "customerId",
+          "percentage": 100,
+          "icon": "fa-solid fa-link text-blue-400"
+        },
+        {
+          "name": "staffId",
+          "type": "objectId",
+          "nullable": false,
+          "path": "staffId",
+          "percentage": 100,
+          "icon": "fa-solid fa-link text-blue-400"
+        },
+        {
+          "name": "createdByAccountId",
+          "type": "objectId",
+          "nullable": false,
+          "path": "createdByAccountId",
+          "percentage": 100,
+          "icon": "fa-solid fa-link text-blue-400"
+        },
+        {
+          "name": "requestKey",
+          "type": "string",
+          "nullable": false,
+          "path": "requestKey",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "customerSnapshot",
+          "type": "object",
+          "nullable": false,
+          "path": "customerSnapshot",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "customerSnapshot.displayName",
+          "type": "string",
+          "nullable": false,
+          "path": "customerSnapshot.displayName",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "customerSnapshot.phone",
+          "type": "string",
+          "nullable": true,
+          "path": "customerSnapshot.phone",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "staffNameSnapshot",
+          "type": "string",
+          "nullable": false,
+          "path": "staffNameSnapshot",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "items",
+          "type": "array<object>",
+          "nullable": false,
+          "path": "items",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "items[].serviceId",
+          "type": "string",
+          "nullable": false,
+          "path": "items[].serviceId",
+          "percentage": 100,
+          "icon": "fa-solid fa-link text-blue-400"
+        },
+        {
+          "name": "items[].name",
+          "type": "string",
+          "nullable": false,
+          "path": "items[].name",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "items[].priceVnd",
+          "type": "number",
+          "nullable": false,
+          "path": "items[].priceVnd",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "items[].durationMinutes",
+          "type": "number",
+          "nullable": false,
+          "path": "items[].durationMinutes",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "totalPriceVnd",
+          "type": "number",
+          "nullable": false,
+          "path": "totalPriceVnd",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "totalDurationMinutes",
+          "type": "number",
+          "nullable": false,
+          "path": "totalDurationMinutes",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "bufferAfterMinutes",
+          "type": "number",
+          "nullable": false,
+          "path": "bufferAfterMinutes",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "startAt",
+          "type": "date",
+          "nullable": false,
+          "path": "startAt",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "endAt",
+          "type": "date",
+          "nullable": false,
+          "path": "endAt",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "occupiedUntil",
+          "type": "date",
+          "nullable": false,
+          "path": "occupiedUntil",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "timeZone",
+          "type": "string",
+          "nullable": false,
+          "path": "timeZone",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "localDate",
+          "type": "string",
+          "nullable": false,
+          "path": "localDate",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "nullable": false,
+          "path": "status",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "revision",
+          "type": "number",
+          "nullable": false,
+          "path": "revision",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "lastCommand",
+          "type": "object",
+          "nullable": true,
+          "path": "lastCommand",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "lastCommand.actorId",
+          "type": "objectId",
+          "nullable": true,
+          "path": "lastCommand.actorId",
+          "percentage": 100,
+          "icon": "fa-solid fa-link text-blue-400"
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "ref_appointments_customerId",
+          "refTable": "customers",
+          "columnPairs": [
+            {
+              "localColumn": "customerId",
+              "refColumn": "_id"
+            }
+          ],
+          "onDelete": "RESTRICT",
+          "onUpdate": "RESTRICT"
+        },
+        {
+          "name": "ref_appointments_staffId",
+          "refTable": "staff",
+          "columnPairs": [
+            {
+              "localColumn": "staffId",
+              "refColumn": "_id"
+            }
+          ],
+          "onDelete": "RESTRICT",
+          "onUpdate": "RESTRICT"
+        },
+        {
+          "name": "ref_appointments_createdByAccountId",
+          "refTable": "accounts",
+          "columnPairs": [
+            {
+              "localColumn": "createdByAccountId",
+              "refColumn": "_id"
+            }
+          ],
+          "onDelete": "RESTRICT",
+          "onUpdate": "RESTRICT"
+        },
+        {
+          "name": "ref_appointments_items[].serviceId",
+          "refTable": "services",
+          "columnPairs": [
+            {
+              "localColumn": "items[].serviceId",
+              "refColumn": "id"
+            }
+          ],
+          "onDelete": "RESTRICT",
+          "onUpdate": "RESTRICT"
+        }
+      ],
+      "selected": false
+    },
+    {
+      "id": "accounts",
+      "name": "accounts",
+      "database": "Sol Hair Studio - DB baseline v1 - PROPOSED",
+      "headerColor": "",
+      "position": {
+        "left": 706.9164320459863,
+        "top": 285.28311154751896
+      },
+      "size": {
+        "width": 219,
+        "height": 180,
+        "minWidth": 219,
+        "maxHeight": 180
+      },
+      "fields": [
+        {
+          "name": "_id",
+          "type": "objectId",
+          "nullable": false,
+          "path": "_id",
+          "percentage": 100,
+          "icon": "fa-solid fa-key text-yellow-500"
+        },
+        {
+          "name": "emailNormalized",
+          "type": "string",
+          "nullable": false,
+          "path": "emailNormalized",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "passwordHash",
+          "type": "string",
+          "nullable": false,
+          "path": "passwordHash",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "roles",
+          "type": "array<string>",
+          "nullable": false,
+          "path": "roles",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "isActive",
+          "type": "bool",
+          "nullable": false,
+          "path": "isActive",
+          "percentage": 100,
+          "icon": ""
+        }
+      ],
+      "foreignKeys": [],
+      "selected": false
+    },
+    {
+      "id": "customers",
+      "name": "customers",
+      "database": "Sol Hair Studio - DB baseline v1 - PROPOSED",
+      "headerColor": "",
+      "position": {
+        "left": 1407.0987951113036,
+        "top": 326.6739658967013
+      },
+      "size": {
+        "width": 198,
+        "height": 157,
+        "minWidth": 198,
+        "maxHeight": 157
+      },
+      "fields": [
+        {
+          "name": "_id",
+          "type": "objectId",
+          "nullable": false,
+          "path": "_id",
+          "percentage": 100,
+          "icon": "fa-solid fa-key text-yellow-500"
+        },
+        {
+          "name": "accountId",
+          "type": "objectId",
+          "nullable": true,
+          "path": "accountId",
+          "percentage": 100,
+          "icon": "fa-solid fa-link text-blue-400"
+        },
+        {
+          "name": "displayName",
+          "type": "string",
+          "nullable": false,
+          "path": "displayName",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "phone",
+          "type": "string",
+          "nullable": true,
+          "path": "phone",
+          "percentage": 100,
+          "icon": ""
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "ref_customers_accountId",
+          "refTable": "accounts",
+          "columnPairs": [
+            {
+              "localColumn": "accountId",
+              "refColumn": "_id"
+            }
+          ],
+          "onDelete": "RESTRICT",
+          "onUpdate": "RESTRICT"
+        }
+      ],
+      "selected": false
+    },
+    {
+      "id": "staff",
+      "name": "staff",
+      "database": "Sol Hair Studio - DB baseline v1 - PROPOSED",
+      "headerColor": "",
+      "position": {
+        "left": 166.66666666666666,
+        "top": 804.701
+      },
+      "size": {
+        "width": 286,
+        "height": 318,
+        "minWidth": 286,
+        "maxHeight": 318
+      },
+      "fields": [
+        {
+          "name": "_id",
+          "type": "objectId",
+          "nullable": false,
+          "path": "_id",
+          "percentage": 100,
+          "icon": "fa-solid fa-key text-yellow-500"
+        },
+        {
+          "name": "accountId",
+          "type": "objectId",
+          "nullable": true,
+          "path": "accountId",
+          "percentage": 100,
+          "icon": "fa-solid fa-link text-blue-400"
+        },
+        {
+          "name": "displayName",
+          "type": "string",
+          "nullable": false,
+          "path": "displayName",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "isActive",
+          "type": "bool",
+          "nullable": false,
+          "path": "isActive",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "serviceIds[]",
+          "type": "string",
+          "nullable": false,
+          "path": "serviceIds[]",
+          "percentage": 100,
+          "icon": "fa-solid fa-link text-blue-400"
+        },
+        {
+          "name": "bookingRevision",
+          "type": "number",
+          "nullable": false,
+          "path": "bookingRevision",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "weeklyHours",
+          "type": "array<object>",
+          "nullable": false,
+          "path": "weeklyHours",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "weeklyHours[].weekday",
+          "type": "number",
+          "nullable": false,
+          "path": "weeklyHours[].weekday",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "weeklyHours[].intervals",
+          "type": "array<object>",
+          "nullable": false,
+          "path": "weeklyHours[].intervals",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "weeklyHours[].intervals[].startMinute",
+          "type": "number",
+          "nullable": false,
+          "path": "weeklyHours[].intervals[].startMinute",
+          "percentage": 100,
+          "icon": ""
+        },
+        {
+          "name": "weeklyHours[].intervals[].endMinute",
+          "type": "number",
+          "nullable": false,
+          "path": "weeklyHours[].intervals[].endMinute",
+          "percentage": 100,
+          "icon": ""
+        }
+      ],
+      "foreignKeys": [
+        {
+          "name": "ref_staff_accountId",
+          "refTable": "accounts",
+          "columnPairs": [
+            {
+              "localColumn": "accountId",
+              "refColumn": "_id"
+            }
+          ],
+          "onDelete": "RESTRICT",
+          "onUpdate": "RESTRICT"
+        },
+        {
+          "name": "ref_staff_serviceIds[]",
+          "refTable": "services",
+          "columnPairs": [
+            {
+              "localColumn": "serviceIds[]",
+              "refColumn": "id"
+            }
+          ],
+          "onDelete": "RESTRICT",
+          "onUpdate": "RESTRICT"
+        }
+      ],
+      "selected": false
+    }
+  ],
+  "connections": [
+    {
+      "id": "6abb1b33aa4251f40450295d",
+      "source": {
+        "db": "Sol Hair Studio - DB baseline v1 - PROPOSED",
+        "collection": "customers",
+        "path": "accountId",
+        "anchor": {
+          "id": "6abb1b33aa4251f40450295f",
+          "type": "Left"
+        }
+      },
+      "target": {
+        "db": "Sol Hair Studio - DB baseline v1 - PROPOSED",
+        "collection": "accounts",
+        "path": "_id",
+        "anchor": {
+          "id": "6abb1b33aa4251f404502961",
+          "type": "Right"
+        }
+      },
+      "type": "1-1",
+      "label": "accountId (0..1 : 0..1)"
+    },
+    {
+      "id": "6abb1b33aa4251f404502962",
+      "source": {
+        "db": "Sol Hair Studio - DB baseline v1 - PROPOSED",
+        "collection": "staff",
+        "path": "accountId",
+        "anchor": {
+          "id": "6abb1b33aa4251f404502964",
+          "type": "Right"
+        }
+      },
+      "target": {
+        "db": "Sol Hair Studio - DB baseline v1 - PROPOSED",
+        "collection": "accounts",
+        "path": "_id",
+        "anchor": {
+          "id": "6abb1b33aa4251f404502966",
+          "type": "Left"
+        }
+      },
+      "type": "1-1",
+      "label": "accountId (0..1 : 0..1)"
+    },
+    {
+      "id": "6abb1b33aa4251f404502967",
+      "source": {
+        "db": "Sol Hair Studio - DB baseline v1 - PROPOSED",
+        "collection": "staff",
+        "path": "serviceIds[]",
+        "anchor": {
+          "id": "6abb1b33aa4251f404502969",
+          "type": "Right"
+        }
+      },
+      "target": {
+        "db": "Sol Hair Studio - DB baseline v1 - PROPOSED",
+        "collection": "services",
+        "path": "id",
+        "anchor": {
+          "id": "6abb1b33aa4251f40450296b",
+          "type": "Left"
+        }
+      },
+      "type": "N-N",
+      "label": "skills"
+    },
+    {
+      "id": "6abb1b33aa4251f40450296c",
+      "source": {
+        "db": "Sol Hair Studio - DB baseline v1 - PROPOSED",
+        "collection": "staff_time_off",
+        "path": "staffId",
+        "anchor": {
+          "id": "6abb1b33aa4251f40450296e",
+          "type": "Right"
+        }
+      },
+      "target": {
+        "db": "Sol Hair Studio - DB baseline v1 - PROPOSED",
+        "collection": "staff",
+        "path": "_id",
+        "anchor": {
+          "id": "6abb1b33aa4251f404502970",
+          "type": "Right"
+        }
+      },
+      "type": "N-1",
+      "label": "staffId"
+    },
+    {
+      "id": "6abb1b33aa4251f404502971",
+      "source": {
+        "db": "Sol Hair Studio - DB baseline v1 - PROPOSED",
+        "collection": "appointments",
+        "path": "customerId",
+        "anchor": {
+          "id": "6abb1b33aa4251f404502973",
+          "type": "Right"
+        }
+      },
+      "target": {
+        "db": "Sol Hair Studio - DB baseline v1 - PROPOSED",
+        "collection": "customers",
+        "path": "_id",
+        "anchor": {
+          "id": "6abb1b33aa4251f404502975",
+          "type": "Left"
+        }
+      },
+      "type": "N-1",
+      "label": "customerId"
+    },
+    {
+      "id": "6abb1b33aa4251f404502976",
+      "source": {
+        "db": "Sol Hair Studio - DB baseline v1 - PROPOSED",
+        "collection": "appointments",
+        "path": "staffId",
+        "anchor": {
+          "id": "6abb1b33aa4251f404502978",
+          "type": "Left"
+        }
+      },
+      "target": {
+        "db": "Sol Hair Studio - DB baseline v1 - PROPOSED",
+        "collection": "staff",
+        "path": "_id",
+        "anchor": {
+          "id": "6abb1b33aa4251f40450297a",
+          "type": "Right"
+        }
+      },
+      "type": "N-1",
+      "label": "staffId"
+    },
+    {
+      "id": "6abb1b33aa4251f40450297b",
+      "source": {
+        "db": "Sol Hair Studio - DB baseline v1 - PROPOSED",
+        "collection": "appointments",
+        "path": "createdByAccountId",
+        "anchor": {
+          "id": "6abb1b33aa4251f40450297d",
+          "type": "Right"
+        }
+      },
+      "target": {
+        "db": "Sol Hair Studio - DB baseline v1 - PROPOSED",
+        "collection": "accounts",
+        "path": "_id",
+        "anchor": {
+          "id": "6abb1b33aa4251f40450297f",
+          "type": "Right"
+        }
+      },
+      "type": "N-1",
+      "label": "createdByAccountId"
+    },
+    {
+      "id": "6abb1b33aa4251f404502980",
+      "source": {
+        "db": "Sol Hair Studio - DB baseline v1 - PROPOSED",
+        "collection": "appointments",
+        "path": "items[].serviceId",
+        "anchor": {
+          "id": "6abb1b33aa4251f404502982",
+          "type": "Right"
+        }
+      },
+      "target": {
+        "db": "Sol Hair Studio - DB baseline v1 - PROPOSED",
+        "collection": "services",
+        "path": "id",
+        "anchor": {
+          "id": "6abb1b33aa4251f404502984",
+          "type": "Right"
+        }
+      },
+      "type": "N-1",
+      "label": "items[].serviceId -> id"
+    }
+  ],
+  "groups": [
+    {
+      "id": "6abb1ce4aa4251f4045029bc",
+      "name": "SOL HAIR STUDIO — PROPOSED | MongoDB baseline v1 / SOL-011 | 6 collections; main fields only. ? = optional/absent, never null. object + dotted paths and array<object> = embedded. Links = references checked by the application, not DB foreign keys. 1/N = maximum cardinality. items: 1..3; weeklyHours: 0..7. services.id = String; _id = ObjectId.",
+      "position": {
+        "top": 771.8875353645042,
+        "left": 1064.0274234954393
+      },
+      "size": {
+        "width": 502.89198798842733,
+        "height": 316.1035353070115
+      },
+      "color": "rgba(59,130,246,0.12)",
+      "selected": false
+    }
+  ]
+}

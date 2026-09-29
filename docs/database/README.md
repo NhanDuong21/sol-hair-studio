@@ -4,7 +4,7 @@
 
 ## Đọc từ đây
 
-![DB baseline v1: collection, dữ liệu nhúng và reference](diagrams/sol-db-baseline.svg)
+![DB baseline v1: collection, dữ liệu nhúng và reference](diagrams/sol-db-baseline.png)
 
 1. Xem sơ đồ; đường nối là reference do ứng dụng kiểm tra, **không phải foreign key của MongoDB**.
 2. Đọc [luồng truy cập](queries-and-indexes.md#workload) trước [schema](schema.md).

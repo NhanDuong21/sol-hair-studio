@@ -66,16 +66,18 @@ Các kiểm tra dưới đây đã chạy ngày 29/09/2026. Kiểm tra tài li�
 | Kiểm tra | Kết quả |
 | --- | --- |
 | PR10 và merge base | MERGED, merge commit trùng origin/main khi bắt đầu |
-| `node docs/database/checks/validate-examples.mjs` | Đạt: 6 collection, 18 document giả, DTO 8 field và 45 liên kết nội bộ/file/anchor |
+| `node docs/database/checks/validate-examples.mjs` | Đạt: 6 collection, 18 document giả, DTO 8 field và 46 liên kết nội bộ/file/anchor sau cập nhật PNG |
 | `node docs/database/checks/validate-examples.mjs --self-test` | Đạt: từ chối đủ 13 biến thể sai trong bộ nhớ; không phải integration test |
-| Mermaid render và mở xem | Mermaid CLI 12.0.0 + Edge: exit 0; đã mở bản raster từ SVG để đọc field/nhãn/đường nối, không chồng chữ; giữ source `.mmd` và SVG text |
-| VisuaLeaf | Probe nhỏ nhập được; baseline full round-trip **CHƯA KIỂM CHỨNG**, xem [giới hạn](diagrams/README.md) |
+| Mermaid tham chiếu | Đã render bằng Mermaid CLI 12.0.0 + Edge ở lần bàn giao đầu; giữ source `.mmd`. Theo yêu cầu mới, ảnh SVG được thay bằng PNG xuất từ VisuaLeaf |
+| VisuaLeaf trên Chrome | Đã dựng 6 collection, 63 field chính, 8 reference và chú giải; chỉnh bố cục/cardinality trên web; Export as PNG tải được ảnh 2282 × 2281, đã mở xem; Export as JSON tải được cấu trúc và vị trí. Nhập lại JSON **CHƯA KIỂM CHỨNG**, xem [giới hạn](diagrams/README.md) |
 | `npm run lint` | Đạt cả 3 workspace, exit 0 |
 | `npm test` | Đạt 27 test: API 12, web 8, mobile 7; sử dụng mock theo test hiện có |
 | `npm run build` | Đạt: API kiểm cú pháp 20 file; Expo export Android/iOS; Vite build 43 module. Không chạy app trên emulator/thiết bị |
 | `git diff --check`, `git diff --cached --check` và danh sách staged | Đối chiếu trước commit: chỉ docs/database và một liên kết ở README; không apps/package/lockfile/CI/skill/config cá nhân |
 
 Trích kết quả: `PASS: 6 collections, 18 fake documents`; `PASS: 13 invalid in-memory variants rejected`; `Test Files 6 passed / Tests 12 passed` (API), `3 passed / 7 passed` (mobile), `4 passed / 8 passed` (web). Lần đầu gọi npx Mermaid bị chờ tải browser nên đã dừng; gọi cùng CLI từ cache với Edge đã render thành công. Không coi lần npx bị dừng là PASS. Build chỉ có cảnh báo cache Metro rỗng và NO_COLOR/FORCE_COLOR, không có lỗi build.
+
+Lần cập nhật ảnh theo yêu cầu dùng VisuaLeaf chỉ đổi tài liệu/sơ đồ: chạy lại checker offline và kiểm diff; không chạy lại test/build ứng dụng. Đã đọc metadata của file xuất: 6 collection/63 field/8 đường nối/1 chú giải; PNG đúng chữ ký và kích thước trên. File JSON giữ nguyên bản xuất của công cụ, gồm nhãn `connectionType: "SQL"`; không phải thay đổi thiết kế MongoDB. PNG có hạn chế hiển thị mép tiêu đề/dấu gạch dưới khi thu nhỏ như ghi trong hướng dẫn sơ đồ.
 
 ## Review và giới hạn
 
@@ -91,9 +93,9 @@ Trích kết quả: `PASS: 6 collections, 18 fake documents`; `PASS: 13 invalid 
 | Cụm “tương lai” bỏ sót đang phục vụ; bắt đầu lịch cũ | Chỉ rõ mọi in_progress, confirmed occupiedUntil>now; start cùng ngày, trước endAt, active và không nghỉ |
 | lastCommand một phần tử nhưng lời hứa idempotency quá rộng | Thu hẹp phát hiện reuse tới receipt hiện tại; retry lệnh cũ giữ expectedRevision và nhận stale nếu đã có lệnh sau |
 
-Sửa thêm khi chạy checker: lỗi dấu ngoặc JavaScript ở lần chạy đầu và thiếu SVG trong lúc renderer chưa xong; đã sửa cú pháp/render rồi chạy lại toàn bộ. Không làm yếu invariant để vượt kiểm tra.
+Sửa thêm khi chạy checker: lỗi dấu ngoặc JavaScript ở lần chạy đầu và thiếu ảnh trong lúc renderer chưa xong; đã sửa cú pháp/render rồi chạy lại toàn bộ. Không làm yếu invariant để vượt kiểm tra.
 
-**Chưa kiểm chứng:** DB thật, Server/FCV/topology, validator/index đã áp dụng, concurrency/failover/unknown commit trên MongoDB, explain/performance, trình giả lập/thiết bị, baseline đầy đủ trong VisuaLeaf. Không có tuyên bố production-ready.
+**Chưa kiểm chứng:** DB thật, Server/FCV/topology, validator/index đã áp dụng, concurrency/failover/unknown commit trên MongoDB, explain/performance, trình giả lập/thiết bị, nhập lại JSON VisuaLeaf trên canvas mới. Không có tuyên bố production-ready.
 
 ## Tiêu chí bàn giao
 
@@ -103,7 +105,7 @@ Sửa thêm khi chạy checker: lỗi dấu ngoặc JavaScript ở lần chạy 
 | Schema nested, reference, snapshot, validation/index và migration | Có tài liệu; đã sửa phát hiện từ hai lượt review |
 | Chống trùng có key/document tranh chấp, retry, đổi lịch atomic | Có thiết kế; integration chưa chạy |
 | JSON giả liên kết nhất quán, script built-in offline | Kiểm tra offline đạt như bảng trên |
-| Mermaid source và SVG đã mở xem | Đã render và kiểm đọc |
-| VisuaLeaf native round-trip | CHƯA KIỂM CHỨNG; bàn giao theo fallback prompt cho phép |
+| PNG và JSON xuất trực tiếp từ VisuaLeaf | Đã xuất, mở PNG và đối chiếu cấu trúc JSON; giữ thêm Mermaid tham chiếu |
+| VisuaLeaf native round-trip | CHƯA KIỂM CHỨNG; bản xuất native có thật, chưa chứng minh nhập lại được |
 | Nhánh/commit/push/Draft PR và Sheet | Bàn giao trên nhánh `docs/SOL-011-db-baseline`; link PR và trạng thái cập nhật tại hàng SOL-011 trên Sheet |
 | Chủ task duyệt baseline | CHỜ DUYỆT — PROPOSED |
