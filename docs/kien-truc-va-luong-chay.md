@@ -1,12 +1,12 @@
 # Kiến trúc và luồng chạy
 
-Tài liệu này mô tả cấu trúc đang có trong repository. Phạm vi sản phẩm hiện tại gồm trang chủ web và API danh mục dịch vụ với dữ liệu mẫu do máy chủ cung cấp. Đặt lịch, đăng nhập, thanh toán, trang tổng quan và feature danh mục trên mobile chưa được triển khai.
+Tài liệu này mô tả cấu trúc đang có trong repository. Phạm vi sản phẩm hiện tại gồm trang chủ web và API danh mục dịch vụ đọc từ MongoDB, dùng URL ảnh Cloudinary. Đặt lịch, đăng nhập, thanh toán, trang tổng quan và feature danh mục trên mobile chưa được triển khai.
 
 ## A. Nhìn tổng thể
 
 Repository là một monorepo npm workspaces gồm ba ứng dụng:
 
-- `apps/api` là API Node.js/Express. API cung cấp `GET /api/health`, `GET /api/services` và có thể kết nối MongoDB qua Mongoose nếu cấu hình `MONGODB_URI`.
+- `apps/api` là API Node.js/Express. API cung cấp `GET /api/health`, `GET /api/services` và kết nối MongoDB qua Mongoose nếu cấu hình `MONGODB_URI`.
 - `apps/web` là ứng dụng React/Vite/Tailwind chạy trên trình duyệt, có trang chủ và lấy thẻ dịch vụ từ API.
 - `apps/mobile` là ứng dụng React Native/Expo dùng cho Android và iOS.
 
@@ -21,25 +21,37 @@ Root giữ `package.json` và `package-lock.json` duy nhất để cài cả ba 
 ```text
 apps/api/
 ├── scripts/
-│   └── check-source.js              Quét đệ quy và kiểm tra cú pháp source API
+│   ├── check-source.js              Quét đệ quy và kiểm tra cú pháp source API
+│   ├── data/
+│   │   └── services.js              Dữ liệu mẫu và public ID ảnh dùng cho seed
+│   └── seed-services.js             Nạp/cập nhật dịch vụ và URL ảnh vào MongoDB
 ├── src/
 │   ├── config/
 │   │   ├── env.js                   Đọc, chuẩn hóa và kiểm tra biến môi trường
+│   │   ├── cloudinary.js            Tạo URL phân phối ảnh đã lưu trên Cloudinary
+│   │   ├── tests/
+│   │   │   └── cloudinary.test.js    Kiểm tra URL phân phối ảnh
 │   │   └── database.js              Kết nối, ngắt kết nối và đọc trạng thái MongoDB
 │   ├── middlewares/
 │   │   ├── error-handler.js         Chuẩn hóa lỗi 400/500 và chuyển tiếp khi headers đã gửi
 │   │   ├── not-found.js             Trả JSON 404 cho route không tồn tại
-│   │   └── middlewares.test.js      Kiểm tra phản hồi lỗi 400/404/500
+│   │   └── tests/
+│   │       └── middlewares.test.js  Kiểm tra phản hồi lỗi 400/404/500
 │   ├── modules/
 │   │   ├── health/
 │   │   │   ├── health.routes.js     Khai báo GET /health dưới prefix /api
 │   │   │   ├── health.controller.js Tạo phản hồi health và trạng thái database
-│   │   │   └── health.test.js       Kiểm tra hợp đồng GET /api/health
+│   │   │   └── tests/
+│   │   │       └── health.test.js   Kiểm tra hợp đồng GET /api/health
 │   │   └── services/
 │   │       ├── services.routes.js   Khai báo GET /services dưới prefix /api
-│   │       ├── services.controller.js Trả danh sách dịch vụ theo hợp đồng chung
-│   │       ├── services.data.js     Nguồn dữ liệu mẫu phía máy chủ
-│   │       └── services.test.js     Kiểm tra hợp đồng GET /api/services
+│   │       ├── services.controller.js Kiểm tra trạng thái DB và trả hợp đồng API
+│   │       ├── services.model.js    Lược đồ dịch vụ MongoDB
+│   │       ├── services.repository.js Truy vấn dịch vụ đang hoạt động
+│   │       └── tests/
+│   │           ├── services.api.test.js Kiểm tra hợp đồng endpoint
+│   │           ├── services.model.test.js Kiểm tra lược đồ dịch vụ
+│   │           └── services.repository.test.js Kiểm tra truy vấn dịch vụ
 │   ├── routes/
 │   │   └── index.js                 Gom router module dưới prefix /api
 │   ├── app.js                       Tạo Express app và ghép middleware/router
@@ -106,7 +118,7 @@ apps/mobile/
 
 ## C. Thứ tự đọc code
 
-- API: `apps/api/src/server.js` → `apps/api/src/app.js` → `apps/api/src/routes/index.js` → `apps/api/src/modules/services/services.routes.js` → `services.controller.js` → `services.data.js`.
+- API: `apps/api/src/server.js` → `apps/api/src/app.js` → `apps/api/src/routes/index.js` → `apps/api/src/modules/services/services.routes.js` → `services.controller.js` → `services.repository.js` → `services.model.js`.
 - Web: `apps/web/src/main.jsx` → `App.jsx` → `routes/AppRoutes.jsx` → `features/home/pages/HomePage.jsx` → `components/ServicePreview.jsx` → `features/services/hooks/useServices.js` → `api/services.api.js` → `lib/http.js`.
 - Mobile: `apps/mobile/index.js` → `App.jsx` → `src/navigation/RootNavigator.jsx` → `features/health/screens/HealthScreen.jsx` → `hooks/useHealth.js` → `api/health.api.js` → `lib/http.js`.
 
@@ -114,7 +126,7 @@ apps/mobile/
 
 Web vào `main.jsx`, nơi tạo React root và render `App` trong `StrictMode`. `App.jsx` đặt một `BrowserRouter`; `AppRoutes` chọn `HomePage` tại `/` và vẫn giữ `HealthPage` tại `/health`. `HomePage` ghép header, phần mở đầu, danh mục, trải nghiệm, bài viết mẫu, lời mời liên hệ và footer. `ServicePreview` gọi `useServices`; hook quản lý trạng thái `loading`, `success` (gồm cả danh sách rỗng), `error`, thử lại và hủy request khi rời trang.
 
-`services.api.js` gọi `GET /api/services` qua HTTP helper. Máy chủ trả `{ data: [...] }` từ `services.data.js`; mỗi mục có `id`, `slug`, `name`, `description`, `category`, `durationMinutes` và `priceVnd`. Dữ liệu ảnh là phần trình bày của web, được ghép theo `slug` trong `ServiceCard`; ảnh không nằm trong hợp đồng API dùng chung.
+`services.api.js` gọi `GET /api/services` qua HTTP helper. Khi MongoDB đã kết nối, máy chủ trả `{ data: [...] }` từ các dịch vụ đang hoạt động; mỗi mục có `id`, `slug`, `name`, `description`, `category`, `durationMinutes`, `priceVnd` và `imageUrl`. URL ảnh được tạo từ Cloudinary cloud name/public ID lúc nạp seed vào MongoDB; web dùng `imageUrl` trả về từ API. Khi database chưa được cấu hình hoặc kết nối, endpoint trả `503` với mã `DATABASE_UNAVAILABLE`, còn health check vẫn cho biết trạng thái database.
 
 ## E. Luồng chạy health
 
@@ -174,7 +186,7 @@ Không cần tạo đủ mọi tệp trước khi tính năng cần chúng.
 | `apps/api/src/database.js` | `apps/api/src/config/database.js` |
 | Handler health trong `apps/api/src/app.js` | `modules/health/health.routes.js` và `health.controller.js` |
 | Handler 404/500 trong `apps/api/src/app.js` | `middlewares/not-found.js` và `middlewares/error-handler.js` |
-| `apps/api/src/app.test.js` | `modules/health/health.test.js` và `middlewares/middlewares.test.js` |
+| `apps/api/src/app.test.js` | `modules/health/tests/health.test.js` và `middlewares/tests/middlewares.test.js` |
 | `apps/web/src/App.jsx` | `routes/AppRoutes.jsx`, `layouts/MainLayout.jsx`, `features/health/pages/HealthPage.jsx`, `components/HealthStatusCard.jsx`, `hooks/useHealth.js` |
 | `apps/web/src/api.js` | `features/health/api/health.api.js`, `lib/http.js`, `lib/latest-request.js`, `config/env.js` |
 | `apps/web/src/api.test.js` | `features/health/tests/health.api.test.js` và `lib/tests/` |

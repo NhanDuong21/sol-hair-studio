@@ -1,8 +1,8 @@
 import { Router } from 'express'
 import request from 'supertest'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { createApp } from '../app.js'
-import { errorHandler } from './error-handler.js'
+import { createApp } from '../../app.js'
+import { errorHandler } from '../error-handler.js'
 
 afterEach(() => {
   vi.restoreAllMocks()

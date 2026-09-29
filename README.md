@@ -6,15 +6,16 @@ Nền tảng dùng chung cho bài tập SDN302 và MMA301. Repository này chứ
 | --- | --- | --- |
 | `apps/web` | React + Vite + JavaScript/JSX + Tailwind CSS | Trang chủ thích ứng, lấy danh mục dịch vụ từ API |
 | `apps/mobile` | React Native + Expo + JavaScript/JSX | Ứng dụng Android/iOS, gọi endpoint kiểm tra API |
-| `apps/api` | Node.js + Express + JavaScript | API dùng chung và kết nối MongoDB tùy chọn |
+| `apps/api` | Node.js + Express + JavaScript | API dùng chung, MongoDB và ảnh dịch vụ trên Cloudinary |
 
-Repository có trang chủ web và API danh mục dịch vụ mẫu làm feature đầu tiên. Đây chưa phải tuyên bố đáp ứng rubric; đăng nhập, đặt lịch, thanh toán và trang tổng quan chưa nằm trong phạm vi hiện tại. Phạm vi hai môn và các giả định đang được ghi tại [docs/course-scope.md](docs/course-scope.md).
+Repository có trang chủ web và API danh mục dịch vụ dùng chung. MongoDB lưu dịch vụ; Cloudinary phân phối ảnh dịch vụ. Đây chưa phải tuyên bố đáp ứng rubric; đăng nhập, đặt lịch, thanh toán và trang tổng quan chưa nằm trong phạm vi hiện tại. Phạm vi hai môn và các giả định đang được ghi tại [docs/course-scope.md](docs/course-scope.md).
 
 ## Runtime và cài đặt
 
 - Node.js `24.15.0` (dòng Node 24 LTS; xem `.nvmrc`).
 - npm `11.12.1` (được ghi trong `packageManager`).
-- MongoDB là tùy chọn; danh mục hiện dùng dữ liệu mẫu do API cung cấp, chưa lưu dữ liệu dịch vụ vào database.
+- MongoDB lưu danh mục dịch vụ; API vẫn phục vụ health check khi chưa cấu hình database.
+- Ảnh dịch vụ được phân phối trực tiếp từ Cloudinary qua trường `imageUrl`; ảnh nội dung trang chủ nằm trong `apps/web/public/images/`, video hero được phục vụ trực tiếp từ `apps/web/public/video/`.
 
 Trên Windows PowerShell:
 
@@ -36,9 +37,15 @@ Copy-Item apps\web\.env.example apps\web\.env
 Copy-Item apps\mobile\.env.example apps\mobile\.env
 ```
 
-API vẫn khởi động và trả kết quả kiểm tra khi chưa có `MONGODB_URI`; trạng thái cơ sở dữ liệu khi đó là `not-configured`. Nếu dùng MongoDB cục bộ, URI khuyến nghị là `mongodb://127.0.0.1:27017/sol_hair_studio`. Nếu dùng MongoDB Atlas, đặt chuỗi kết nối trong `apps/api/.env`, không đưa tên đăng nhập hoặc mật khẩu vào Git.
+API vẫn khởi động và trả kết quả kiểm tra khi chưa có `MONGODB_URI`; trạng thái cơ sở dữ liệu khi đó là `not-configured`, còn `GET /api/services` trả `503`. Nếu dùng MongoDB cục bộ, URI khuyến nghị là `mongodb://127.0.0.1:27017/sol_hair_studio`. Nếu dùng MongoDB Atlas, đặt chuỗi kết nối trong `apps/api/.env`, không đưa tên đăng nhập hoặc mật khẩu vào Git.
 
-`CORS_ORIGIN` nhận `*` hoặc danh sách nguồn phân cách bằng dấu phẩy. Khi chạy web mặc định, đặt `http://localhost:5173`.
+Để nạp danh mục mẫu có URL Cloudinary vào MongoDB, điền `MONGODB_URI` và `CLOUDINARY_CLOUD_NAME` trong file `apps/api/.env` cục bộ rồi chạy:
+
+```powershell
+npm run seed:services --workspace @sol-hair/api
+```
+
+`CORS_ORIGIN` nhận `*` hoặc danh sách nguồn phân cách bằng dấu phẩy. Vite mặc định dùng `http://localhost:5173` và có thể chuyển sang `http://localhost:5174` nếu cổng 5173 đang bận; cấu hình mẫu cho phép cả hai.
 
 ## Chạy từng phần
 
@@ -50,7 +57,7 @@ npm run dev:web
 npm run dev:mobile
 ```
 
-- API mặc định: `http://localhost:4000`; endpoint kiểm tra `GET /api/health` và danh mục `GET /api/services`.
+- API mặc định: `http://localhost:4000`; endpoint kiểm tra `GET /api/health` và danh mục `GET /api/services` (cần MongoDB đã nạp dịch vụ).
 - Web mặc định: `http://localhost:5173` và đọc `VITE_API_BASE_URL`.
 - Ứng dụng di động đọc `EXPO_PUBLIC_API_BASE_URL`.
 

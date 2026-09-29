@@ -51,11 +51,15 @@ export default function HomePage() {
 
             <RevealOnScroll className="relative lg:col-span-7" delay={100}>
               <div className="relative aspect-[1.18/1] overflow-hidden rounded-[2rem_2rem_2rem_7rem] border border-border/60 bg-soft-surface shadow-[0_24px_70px_rgba(71,51,39,0.12)] sm:aspect-[1.42/1]">
-                <img
-                  src="/images/hero-model.png"
-                  alt="Mái tóc được tạo kiểu tự nhiên tại Sol Hair Studio"
-                  className="h-full w-full object-cover"
-                  fetchPriority="high"
+                <video
+                  src="/video/hero.mp4"
+                  aria-label="Stylist tạo kiểu tóc tại Sol Hair Studio"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="auto"
+                  className="h-full w-full -translate-x-[1%] scale-[1.04] object-cover"
                 />
               </div>
               <div className="absolute -bottom-4 left-4 max-w-[90%] rounded-2xl border border-border/70 bg-white/95 px-4 py-3 shadow-lg sm:bottom-5 sm:left-5 sm:px-5">

@@ -13,4 +13,5 @@ export const config = Object.freeze({
   port: readPort(process.env.PORT),
   corsOrigin: process.env.CORS_ORIGIN ?? '*',
   mongoUri: process.env.MONGODB_URI?.trim() || undefined,
+  cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME?.trim() || undefined,
 })
